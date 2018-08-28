@@ -26,7 +26,7 @@ The course work will include:
 
 ### Module I: Foundational Concepts
 
-\1. Introduction to databases, role in applications, type of DB applications and overall system software architecture.
+1. Introduction to databases, role in applications, type of DB applications and overall system software architecture.
 
 2. Information and data modeling and best practices, focusing on supporting application scenarios.
 
@@ -34,7 +34,7 @@ The course work will include:
 
 4. Extended topics in SQL and RDBMS (performance, security, constraints, triggers, connection management, etc).
 
-Module II: Database Management System Implementation/Architecture
+ Module II: Database Management System Implementation/Architecture
 
 5. Storage management, disk management, buffer management, indexes.
 
@@ -42,23 +42,23 @@ Module II: Database Management System Implementation/Architecture
 
 7. Concurrency control and transaction management.
 
-Module III: NoSQL Database Overview
+ Module III: NoSQL Database Overview
 
 8. Overview, graph databases, Redis.
 
 9. Amazon S3, Amazon DynamoDB, Google Firebase/Cloud Firestore.
 
-Module IV: Decision Support, Data Analysis
+ Module IV: Decision Support, Data Analysis
 
 10. Overview of schema denormalization, OLAP cubes, data analytics, machine learning.
 
-The []first lecture]() provides a more detailed overview of the course and introduction to concepts.
+The [first lecture](./Notebooks/w4111-L1-f2018-Introduction.html) provides a more detailed overview of the course and introduction to concepts.
 
 [Notebooks](./Notebooks) contains Juptyer Notebooks for the lectures, and
 HTML versions of the lectures.
 
 The HTML for the various lectures are:
-    - [Lecture 1: Introduction and Overview](./Notebooks/E6156-f2018-Lecture-1.html)
-    - [Lecture 2: Lecture 2: Microservices Overview and First Microservice](./Notebooks/E6156-f2018-Lecture-2.html)
+    - [Lecture 1: Introduction and Overview](./Notebooks/w4111-L1-Introduction.html)
+    - [Lecture 2: Lecture 2: Begin Working with Data, Data Modeling, Databases and Applications](./Notebooks/-f2018-Lecture-2.html)
 
 More to come
