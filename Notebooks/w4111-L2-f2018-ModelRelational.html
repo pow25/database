@@ -11951,25 +11951,15 @@ $( document ).ready(function(){
 <h2 id="Today's-Lecture">Today's Lecture<a class="anchor-link" href="#Today's-Lecture">&#182;</a></h2><ol>
 <li>Initial data set for examples and homework 1.
 <br><br></li>
-<li>Introduction to Relational Algebra/Model.<br>
-<br></li>
-<li>Introduction to SQL.
+<li>Common Database Concepts
+<br><br></li>
+<li>Introduction to Relational Algebra/Model and SQL Realization<br>
 <br><br></li>
 <li>Homework 1:<ol>
 <li>Discussion and clarification of homework 1a; Q&amp;A</li>
-<li>Discussion and clarification of homework 1b; Q&amp;A
-<br><br></li>
+<li>Discussion and clarification of homework 1b; Q&amp;A</li>
 </ol>
 </li>
-<li>Overview/enumeration of (some of) the types of database applications.
-<br><br></li>
-<li>Data Modeling and Database Design<ul>
-<li>First set of concepts.</li>
-<li>Modeling and design will be an ongoing topic in lectures.
-<br><br></li>
-</ul>
-</li>
-<li>First steps in building our first interactive web application.</li>
 </ol>
 
 </div>
@@ -12454,7 +12444,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="A-Note-on-the-Domain-and-Data">A Note on the Domain and Data<a class="anchor-link" href="#A-Note-on-the-Domain-and-Data">&#182;</a></h4><ul>
+<h3 id="A-Note-on-the-Domain-and-Data">A Note on the Domain and Data<a class="anchor-link" href="#A-Note-on-the-Domain-and-Data">&#182;</a></h3><ul>
 <li>The domain: Many of you do not understand baseball.<ul>
 <li>A basic understanding can be useful. For example, in WW II, if US soldiers thought someone might be a German impostor, they would ask the person questions about baseball.</li>
 <li>There are some educational benefits to not completely understanding the domain. This is a common situation.<ul>
@@ -15626,7 +15616,7 @@ Result =
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="The-Assignment:--HW1">The Assignment:  HW1<a class="anchor-link" href="#The-Assignment:--HW1">&#182;</a></h3><h4 id="Overview">Overview<a class="anchor-link" href="#Overview">&#182;</a></h4><ul>
+<h2 id="The-Assignment:--HW1">The Assignment:  HW1<a class="anchor-link" href="#The-Assignment:--HW1">&#182;</a></h2><h3 id="Overview">Overview<a class="anchor-link" href="#Overview">&#182;</a></h3><ul>
 <li>The homework has two parts:<ul>
 <li>Part 1 is to implement some basic CRUD semantics on top of CSV files.</li>
 <li>Part 2 is to re-implement the the code/interface by connecting to MySQL.</li>
@@ -15656,7 +15646,7 @@ Result =
 <ul>
 <li>The three comma <code>People.csv, Master.csv, Appearances.csv</code> are on <a href="https://courseworks2.columbia.edu/files/3106218/download?download_frd=1">CourseWorks</a>.</li>
 </ul>
-<h4 id="Part-A:-Implement-Basic-Table-Semantics">Part A: Implement Basic Table Semantics<a class="anchor-link" href="#Part-A:-Implement-Basic-Table-Semantics">&#182;</a></h4><h5 id="Semantics">Semantics<a class="anchor-link" href="#Semantics">&#182;</a></h5><ul>
+<h3 id="Part-A:-Implement-Basic-Table-Semantics">Part A: Implement Basic Table Semantics<a class="anchor-link" href="#Part-A:-Implement-Basic-Table-Semantics">&#182;</a></h3><h4 id="Semantics">Semantics<a class="anchor-link" href="#Semantics">&#182;</a></h4><ul>
 <li>The data defining a table is:<ul>
 <li>Table name</li>
 <li>File name</li>
@@ -16351,7 +16341,7 @@ Query result is
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Part-B:-Implement-Query-Processor-and-Cross-Table-Semantics">Part B: Implement Query Processor and Cross-Table Semantics<a class="anchor-link" href="#Part-B:-Implement-Query-Processor-and-Cross-Table-Semantics">&#182;</a></h4><h5 id="Query-Processor">Query Processor<a class="anchor-link" href="#Query-Processor">&#182;</a></h5><ul>
+<h3 id="Part-B:-Implement-Query-Processor-and-Cross-Table-Semantics">Part B: Implement Query Processor and Cross-Table Semantics<a class="anchor-link" href="#Part-B:-Implement-Query-Processor-and-Cross-Table-Semantics">&#182;</a></h3><h4 id="Query-Processor">Query Processor<a class="anchor-link" href="#Query-Processor">&#182;</a></h4><ul>
 <li>Implement a class or module <code>QueryProcessor.</code> The configuration parameters are:<ul>
 <li>A list of <code>CSVTable</code> instances.</li>
 <li>A list of $constraints,$ each of the form: <br><code>{target_table_name, target_table_attribute_name, source_table_name, source_table_attribute_name}</code></li>
