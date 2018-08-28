@@ -58,7 +58,7 @@ The [first lecture](./Notebooks/w4111-L1-f2018-Introduction.html) provides a mor
 HTML versions of the lectures.
 
 The HTML for the various lectures are:
-    - [Lecture 1: Introduction and Overview](./Notebooks/w4111-L1-Introduction.html)
-    - [Lecture 2: Lecture 2: Begin Working with Data, Data Modeling, Databases and Applications](./Notebooks/-f2018-Lecture-2.html)
+- [Lecture 1: Introduction and Overview](./Notebooks/w4111-L1-f2018-Introduction.html)
+- [Lecture 2: Lecture 2: Begin Working with Data, Data Modeling, Databases and Applications](./Notebooks/w4111-L2-f2018-ModelRelational.html)
 
 More to come
