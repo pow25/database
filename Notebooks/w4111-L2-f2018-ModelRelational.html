@@ -11954,8 +11954,8 @@ $( document ).ready(function(){
 <li>Common Database Concepts
 <br><br></li>
 <li>Introduction to Relational Algebra/Model and SQL Realization<br>
-<br><br></li>
-<li>Homework 1:<ol>
+<br></li>
+<li>Homework 1: Databases versus Files<ol>
 <li>Discussion and clarification of homework 1a; Q&amp;A</li>
 <li>Discussion and clarification of homework 1b; Q&amp;A</li>
 </ol>
@@ -12546,6 +12546,35 @@ $( document ).ready(function(){
 <li>Formal language and algebra.</li>
 <li>A standard implementation language, Structure Query Language <a href="https://en.wikipedia.org/wiki/SQL">(SQL)</a></li>
 </ul>
+<ul>
+<li>The relational model and SQL language (and most DB engines) have two sub-languages/models:<ul>
+<li>Data definition</li>
+<li>Data manipulation</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>SQL and other database engines also have an API/language for administration and security.</li>
+</ul>
+<table>
+<thead><tr>
+<th style="text-align:center"><img src="../images/db_engine_apis.jpeg"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>DN Engine Interfaces</strong></td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Defining-Data">Defining Data<a class="anchor-link" href="#Defining-Data">&#182;</a></h3><h4 id="Relational-Model">Relational Model<a class="anchor-link" href="#Relational-Model">&#182;</a></h4><ul>
 <li><em>Relational Schema</em> defines and provides metadata describing what is/can be in "the file" (called a <em>relation</em>), e.g.<br></li>
 </ul>
@@ -12579,13 +12608,13 @@ $( document ).ready(function(){
 <ol>
 <li>A lot of these attributes are not really strings.</li>
 <li>The data types are "confused" because we got the input via a CSV/text file.</li>
-<li>We will have to clean up the data as wel go forward.</li>
+<li>We will have to clean up the data as we go forward.</li>
 <li><p>Relational model is imprecise about allowed types, but there are obvious ones:</p>
-<ul>
+<ol>
 <li>Integer</li>
 <li>Real</li>
 <li>String</li>
-</ul>
+</ol>
 </li>
 <li><p>A <em>Relational Instance</em> is a "table" of data that conforms to a relation schema, e.g.<br><br></p>
 </li>
@@ -12718,6 +12747,22 @@ $( document ).ready(function(){
 <li>Cleaning up the data will help us understand the benefits and semantics of the relational model and data modeling in general.</li>
 </ul>
 <ul>
+<li>The SQL DML<ul>
+<li>Has many other operations/statements.<ul>
+<li>DROP</li>
+<li>ALTER</li>
+</ul>
+</li>
+<li>Operates on more than just a table's attributes, e.g.<ul>
+<li>Constraints</li>
+<li>Triggers</li>
+<li>Indexes</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
 <li>We will go into DML and defining data in much more detail.</li>
 </ul>
 
@@ -12728,7 +12773,31 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Manipulating-and-Processing-Information">Manipulating and Processing Information<a class="anchor-link" href="#Manipulating-and-Processing-Information">&#182;</a></h3><h4 id="Algebraic-Query-Language">Algebraic Query Language<a class="anchor-link" href="#Algebraic-Query-Language">&#182;</a></h4><p>Reference: Ramkrishan and Gherke, section 2.4.</p>
+<h3 id="Manipulating-and-Processing-Information">Manipulating and Processing Information<a class="anchor-link" href="#Manipulating-and-Processing-Information">&#182;</a></h3><h4 id="Computer-Languages">Computer Languages<a class="anchor-link" href="#Computer-Languages">&#182;</a></h4><ul>
+<li>A declarative language's statements express what is supposed to happen/be output, but not how to do it.</li>
+</ul>
+<ul>
+<li>An <a href="https://en.wikipedia.org/wiki/Imperative_programming">imperative language.</a></li>
+</ul>
+<ul>
+<li>The most distinguishing feature is that declarative languages do not have control-flow constructs, e.g.<ul>
+<li><code>if {...} else {...}</code></li>
+<li><code>for (...) {...}</code></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>The relation model, SQL and many DB languages are (primarily) <a href="https://en.wikipedia.org/wiki/Declarative_programming">declarative languages.</a></li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Algebraic-Query-Language">Algebraic Query Language<a class="anchor-link" href="#Algebraic-Query-Language">&#182;</a></h4><p>Reference: Ramkrishan and Gherke, section 2.4.</p>
 <p>Both the abstract relational model/theory and SQL are <strong>algebras</strong>.</p>
 <h5 id="Algebra">Algebra<a class="anchor-link" href="#Algebra">&#182;</a></h5><p>"... abstract algebra (occasionally called modern algebra) is the study of algebraic structures." (<a href="https://en.wikipedia.org/wiki/Abstract_algebra">https://en.wikipedia.org/wiki/Abstract_algebra</a>)</p>
 <p>"In mathematics, and more specifically in abstract algebra, an algebraic structure is a set (called carrier set or underlying set) with one or more operations defined on it that satisfies a list of axioms." (<a href="https://en.wikipedia.org/wiki/Algebraic_structure">https://en.wikipedia.org/wiki/Algebraic_structure</a>)</p>
@@ -12743,7 +12812,15 @@ $( document ).ready(function(){
 <br><br></li>
 <li>Inverse: There must be an inverse (a.k.a. reciprocal) of each element. Therefore, for each element A of G, the set contains an element B=A<sup>-1</sup> such that <br>AA<sup>-1</sup>=A<sup>-1</sup>A=I.</li>
 </ol>
-<h5 id="Why-a-Special-Query-Language?-Why-a-Formal-Language?">Why a Special Query Language? Why a Formal Language?<a class="anchor-link" href="#Why-a-Special-Query-Language?-Why-a-Formal-Language?">&#182;</a></h5><ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="Why-a-Special-Query-Language?-Why-a-Formal-Language?-Why-an-Algebra">Why a Special Query Language? Why a Formal Language? Why an Algebra<a class="anchor-link" href="#Why-a-Special-Query-Language?-Why-a-Formal-Language?-Why-an-Algebra">&#182;</a></h5><ul>
 <li>Computing has a formal mathemetical model.</li>
 </ul>
 <ul>
@@ -12756,7 +12833,7 @@ $( document ).ready(function(){
 <li>Relational algebra is less powerful and expressive than Java, C, ... and other programming languages.</li>
 </ul>
 <ul>
-<li>The simplicity and constrained capabilities is actually the core of the value, enabling<ul>
+<li><strong>The simplicity and constrained capabilities is actually the core of the value,</strong> enabling<ul>
 <li>Vastly simplified programming and supporting tools that yields increased productivity.</li>
 <li>Development of algorithms that process the data definitions and query statements to automatically produce optimal execution plans, which are better than what a programmer can directly code.</li>
 </ul>
@@ -12806,19 +12883,20 @@ $( document ).ready(function(){
 </li>
 </ul>
 <ul>
-<li>The formal notation does not support create, update or delete. You could emulate the operations by<ul>
+<li>The formal notation does not support create, update or delete of tuples/rows in a relation. You could emulate the operations by<ul>
 <li>Defining new relations containing the created, updated or delete tuples.</li>
 <li>Using $\cup$, $\cap$, $-$ on the original relation and created/deleted/updated tuple relation.</li>
 </ul>
 </li>
 </ul>
 <ul>
-<li>This is an algebra $\Rightarrow$ that $R_1\ OP\ R_2 \rightarrow R_3 ,$ where $R_1 , R_2 , $ and $R_3$ are relations( aka tables).</li>
+<li>This is an algebra $\Rightarrow$ that $R_1\ OP\ R_2 \rightarrow R_3 ,$ where $R_1 , R_2 , $ and $R_3$ are relations ( aka tables). Relationa algebra is closed. Algebra statements operate on relations and produce relations.</li>
 </ul>
 <h5 id="SQL-Notation">SQL Notation<a class="anchor-link" href="#SQL-Notation">&#182;</a></h5><p>Ramakrishnan and Gehrke, sections 5.1, 5.2</p>
 <ul>
-<li><p>The "set" in the relational algebra is the catalog of <em>tables</em>.</p>
-</li>
+<li>The "set" in the relational algebra is the catalog of <em>tables</em>.</li>
+</ul>
+<ul>
 <li><p>The operations are:</p>
 <ul>
 <li>Common set operations:<ul>
@@ -12828,13 +12906,13 @@ $( document ).ready(function(){
 </ul>
 </li>
 <li><p>Selection, Projection, Cartesian Product, Rename/Alias and Join are clauses within a SELECT statement.</p>
-<p><code>SELECT &lt;project clause&gt; FROM &lt;table&gt; [JOIN &lt;table&gt; [ON &lt;join condition]] WHERE &lt;select condition&gt;</code>
-<br><br></p>
+<p><code>SELECT &lt;project clause&gt; FROM &lt;table&gt; [JOIN &lt;table&gt; [ON &lt;join condition]] WHERE &lt;select condition&gt;</code></p>
 </li>
 </ul>
 </li>
-<li><p>SQL supports additional operations, e.g</p>
+</ul>
 <ul>
+<li>SQL supports additional operations, e.g<ul>
 <li>GROUP BY</li>
 <li>ORDER BY</li>
 </ul>
@@ -12915,7 +12993,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h5 id="Projection">Projection<a class="anchor-link" href="#Projection">&#182;</a></h5><ul>
+<h6 id="Projection">Projection<a class="anchor-link" href="#Projection">&#182;</a></h6><ul>
 <li>The projection operator is $\pi$</li>
 </ul>
 <ul>
@@ -12940,7 +13018,7 @@ $( document ).ready(function(){
 <li>Like algebras, there are instances where composition support <em>commutativity,</em> <em>associativity,</em> <em>distribution</em> and other algebra rules. </li>
 </ul>
 <ul>
-<li>For example, $\pi$ and $signma$ are commutative.
+<li>For example, $\pi$ and $\sigma$ are commutative.
 \begin{equation}
 \pi_{nameLast,nameFirst,birthYear}(\sigma_{birthYear=1960}(Players)) = \sigma_{birthYear=1960}(\pi_{nameLast,nameFirst,birthYear}(Players))
 \end{equation}</li>
@@ -12956,7 +13034,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h5 id="SQL">SQL<a class="anchor-link" href="#SQL">&#182;</a></h5><ul>
+<h4 id="SQL">SQL<a class="anchor-link" href="#SQL">&#182;</a></h4><ul>
 <li><p>The core syntax of the SQL SELECT statement is</p>
 
 <pre><code>SELECT [DISTINCT] column-list
@@ -13018,7 +13096,7 @@ $( document ).ready(function(){
 <ul>
 <li><strong>NOTE:</strong> All of the single back quotes are:<ul>
 <li>MySQL specific</li>
-<li>Optional in most cases, and only required if a table or column name has a space, e.g. <code>`First Name`</code></li>
+<li>Optional in most cases, and only required if a table or column name has a space or some other icky character, e.g. <code>`First Name`</code>, <code>First-Name</code></li>
 </ul>
 </li>
 </ul>
@@ -15616,8 +15694,19 @@ Result =
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="The-Assignment:--HW1">The Assignment:  HW1<a class="anchor-link" href="#The-Assignment:--HW1">&#182;</a></h2><h3 id="Overview">Overview<a class="anchor-link" href="#Overview">&#182;</a></h3><ul>
-<li>The homework has two parts:<ul>
+<h2 id="The-Assignment:--HW1">The Assignment:  HW1<a class="anchor-link" href="#The-Assignment:--HW1">&#182;</a></h2><h3 id="Overview">Overview<a class="anchor-link" href="#Overview">&#182;</a></h3><table>
+<thead><tr>
+<th style="text-align:center"><img src="../images/hw1_uml.jpeg"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>HW 1 UML for Part 1 and Part 2</strong></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>The homework has three parts:<ul>
 <li>Part 1 is to implement some basic CRUD semantics on top of CSV files.</li>
 <li>Part 2 is to re-implement the the code/interface by connecting to MySQL.</li>
 <li>Each implementation for part 1 and part 2 has two subparts:<ul>
@@ -15629,6 +15718,14 @@ Result =
 </ul>
 </li>
 </ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <ul>
 <li>The data and CSV files are:</li>
 </ul>
@@ -15646,18 +15743,16 @@ Result =
 <ul>
 <li>The three comma <code>People.csv, Master.csv, Appearances.csv</code> are on <a href="https://courseworks2.columbia.edu/files/3106218/download?download_frd=1">CourseWorks</a>.</li>
 </ul>
-<h3 id="Part-A:-Implement-Basic-Table-Semantics">Part A: Implement Basic Table Semantics<a class="anchor-link" href="#Part-A:-Implement-Basic-Table-Semantics">&#182;</a></h3><h4 id="Semantics">Semantics<a class="anchor-link" href="#Semantics">&#182;</a></h4><ul>
-<li>The data defining a table is:<ul>
-<li>Table name</li>
-<li>File name</li>
+<h3 id="Implement-Basic-Table-Semantics">Implement Basic Table Semantics<a class="anchor-link" href="#Implement-Basic-Table-Semantics">&#182;</a></h3><h4 id="Semantics">Semantics<a class="anchor-link" href="#Semantics">&#182;</a></h4><ul>
+<li>The data defining a <code>XXXDataTable</code> is:<ul>
+<li>Name</li>
+<li>File name (or RDB table name)</li>
 <li>Primary key column name</li>
 </ul>
 </li>
 </ul>
 <ul>
 <li>You will implement a class or module that implements the following functions for any table based on the definition data:<ul>
-<li>Load data.</li>
-<li>Save data.</li>
 <li>Insert a row.</li>
 <li>Delete a row.</li>
 <li><del>Update a row.</del> Checking cross-table constraints is tricky for update. So, I removed this requirement.</li>
@@ -15665,10 +15760,9 @@ Result =
 </ul>
 </li>
 </ul>
-<p><strong>Note:</strong> You can defer <em>insert</em> and <em>delete</em> for now. We will define these operations next lecture when we cover the correspond SQL statements. But, get started on the basics.</p>
 <ul>
 <li>The class/module must implement correctness functions, e.g.<ul>
-<li>Do not allow inserting a row that has columns not in the original file that the "class" wraps.</li>
+<li>Do not allow inserting a row that has columns not in the original file/table that the "class" wraps.</li>
 <li>Processing a query that references columns not in the original file.</li>
 <li>Duplicate primary key</li>
 <li>Insert with an incomplete primary key</li>
@@ -15696,7 +15790,7 @@ Result =
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">SCSVTable</span><span class="p">:</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">SCSVDataTable</span><span class="p">:</span>
 
     <span class="n">data_dir</span> <span class="o">=</span> <span class="s2">&quot;/Users/donaldferguson/Dropbox/ColumbiaCourse/Courses/Fall2018/W4111/Data/&quot;</span>
 
@@ -15718,6 +15812,11 @@ Result =
     <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># Your code goes here</span>
         <span class="k">pass</span>
+    
+    <span class="c1"># Obvious</span>
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
 
     <span class="c1"># The input is:</span>
     <span class="c1"># t: The template to match. The result is a list of rows</span>
@@ -15729,10 +15828,7 @@ Result =
         <span class="c1"># Your code goes here</span>
         <span class="k">pass</span>
 
-    <span class="c1"># Obvious</span>
-    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">pass</span>
-
+    
     <span class="c1"># Inserts the row into the table. </span>
     <span class="c1"># Raises on duplicate key or invalid columns.</span>
     <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
@@ -16341,16 +16437,15 @@ Query result is
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Part-B:-Implement-Query-Processor-and-Cross-Table-Semantics">Part B: Implement Query Processor and Cross-Table Semantics<a class="anchor-link" href="#Part-B:-Implement-Query-Processor-and-Cross-Table-Semantics">&#182;</a></h3><h4 id="Query-Processor">Query Processor<a class="anchor-link" href="#Query-Processor">&#182;</a></h4><ul>
-<li>Implement a class or module <code>QueryProcessor.</code> The configuration parameters are:<ul>
-<li>A list of <code>CSVTable</code> instances.</li>
-<li>A list of $constraints,$ each of the form: <br><code>{target_table_name, target_table_attribute_name, source_table_name, source_table_attribute_name}</code></li>
+<h3 id="Implement-Query-Processor-and-Cross-Table-Semantics">Implement Query Processor and Cross-Table Semantics<a class="anchor-link" href="#Implement-Query-Processor-and-Cross-Table-Semantics">&#182;</a></h3><h4 id="Query-Processor">Query Processor<a class="anchor-link" href="#Query-Processor">&#182;</a></h4><ul>
+<li><p>Implement a class or module <code>XXXQueryProcessor,</code> The configuration parameters are:</p>
+<ul>
+<li>A list of <code>CSVTable</code> instances for <code>CSVQueryProcessor</code> or a list of <code>RDBDataTable</code> for an <code>RDBDataProcessor.</code></li>
+<li>A list of $constraints,$ the form: <br><code>{target_table_name, target_table_attribute_name, source_table_name, source_table_attribute_name}</code></li>
 </ul>
 </li>
-</ul>
-<p><strong>NOTE:</strong> Do not worry about constraints, insert or delete until next week when I cover in lecture.</p>
+<li><p>The meaning is:</p>
 <ul>
-<li>The meaning is:<ul>
 <li>You can only insert into <code>source_table_name</code> if there is a row in <code>target_table_name</code> with<ul>
 <li><code>target_attribute_name</code> having value</li>
 <li>that is the <code>source_attribute_name</code> value.</li>
@@ -16383,7 +16478,7 @@ Query result is
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">QueryProcessor</span><span class="p">:</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">CSVQueryProcessor</span><span class="p">:</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tables</span><span class="p">,</span> <span class="n">constraints</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">pass</span>
@@ -16413,11 +16508,8 @@ Query result is
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h5 id="Some-Tests">Some Tests<a class="anchor-link" href="#Some-Tests">&#182;</a></h5><ul>
-<li>Another example.</li>
-</ul>
-<ul>
-<li>Just focus on query and reading file for now.</li>
+<h4 id="A-Tests">A Tests<a class="anchor-link" href="#A-Tests">&#182;</a></h4><ul>
+<li>Your queries only need to operate on a single table.</li>
 </ul>
 
 </div>
@@ -16457,7 +16549,7 @@ Query result is
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">try</span><span class="p">:</span>
-    <span class="n">tmp</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;table_name&quot;</span><span class="p">:</span> <span class="s2">&quot;People&quot;</span><span class="p">,</span> <span class="s2">&quot;template&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nameLast&quot;</span> <span class="p">:</span> <span class="s2">&quot;Ferguson&quot;</span><span class="p">,</span> <span class="s2">&quot;nameFirst&quot;</span><span class="p">:</span> <span class="s2">&quot;Donald&quot;</span><span class="p">},</span> \
+    <span class="n">tmp</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;table_name&quot;</span><span class="p">:</span> <span class="s2">&quot;People&quot;</span><span class="p">,</span> <span class="s2">&quot;operation_name&quot;</span><span class="p">:</span> <span class="s2">&quot;find_by_template&quot;</span><span class="p">,</span> <span class="s2">&quot;template&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nameLast&quot;</span> <span class="p">:</span> <span class="s2">&quot;Ferguson&quot;</span><span class="p">,</span> <span class="s2">&quot;nameFirst&quot;</span><span class="p">:</span> <span class="s2">&quot;Donald&quot;</span><span class="p">},</span> \
             <span class="s2">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;playerID&#39;</span><span class="p">,</span> <span class="s1">&#39;nameLast&#39;</span><span class="p">,</span> <span class="s1">&#39;nameFirst&#39;</span><span class="p">,</span> <span class="s1">&#39;birthCity&#39;</span><span class="p">]}</span>
     <span class="n">rr</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">find_by_query</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Query = &quot;</span><span class="p">,</span> <span class="n">tmp</span><span class="p">)</span>
@@ -16652,6 +16744,137 @@ Result =
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Ten-Greatest-Hitters">Ten Greatest Hitters<a class="anchor-link" href="#Ten-Greatest-Hitters">&#182;</a></h3><p>The algorith is:</p>
+<ul>
+<li>For each unique playerID in Batting<ul>
+<li>Find the batting records for each year.</li>
+<li>If at least one of the batting records has yearID &gt;= 1960. Compute over all years<ul>
+<li>Total at bats (AB)</li>
+<li>Total hits (H)</li>
+<li>Batting average = total_H/total_AB</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>For every result from above, use the playerID to look the name up in Master. Add to result.</li>
+</ul>
+<ul>
+<li>Sort result by batting average descending.</li>
+</ul>
+<ul>
+<li>Print the top 10 elements.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Logistics">Logistics<a class="anchor-link" href="#Logistics">&#182;</a></h3><ul>
+<li>Due: 23-Sep-18 at 23:59:59 (11:59 PM)</li>
+</ul>
+<ul>
+<li>Submission format is a zip file of the format<ul>
+<li>Data<ul>
+<li>People.csv</li>
+<li>Batting.csv</li>
+<li>Appearances.csv</li>
+</ul>
+</li>
+<li>CSV<ul>
+<li>src<ul>
+<li>CSVQueryProcessor</li>
+<li>CSVDataTable</li>
+<li>TenGreatestHitters</li>
+</ul>
+</li>
+<li>tests<ul>
+<li>CSVT1<ul>
+<li>Source</li>
+<li>Execution screenshot</li>
+</ul>
+</li>
+<li>CSVT2<ul>
+<li>Source</li>
+<li>Execution screen shot</li>
+</ul>
+</li>
+<li>...</li>
+<li>TenGreatesHistterTest<ul>
+<li>Source</li>
+<li>Execution screen shot</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>RDB<ul>
+<li>src<ul>
+<li>RDBQueryProcessor</li>
+<li>RDBDataTable</li>
+</ul>
+</li>
+<li>tests<ul>
+<li>RDBT1<ul>
+<li>Source</li>
+<li>Execution screenshot</li>
+</ul>
+</li>
+<li>RDBT2<ul>
+<li>Source</li>
+<li>Execution screenshot</li>
+</ul>
+</li>
+<li>...</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>I have a reputation for assigning vague, hard homeworks.</li>
+</ul>
+<ul>
+<li>Transforming a vague request into a concrete specification and implementation is <strong>THE</strong> core skill of a computer scientist or data engineer.</li>
+</ul>
+<ul>
+<li>My vague homeworks are much, much more precise than things you will get from a customer or business professional.</li>
+</ul>
+<ul>
+<li>I do not expect you to complete the homework or get it completely correct. We learn more from the feedback on mistakes and you cannot learn without mistakes.</li>
+</ul>
+<ul>
+<li>We will grade very leniently focusing on feedback, not deducting points.</li>
+</ul>
+<ul>
+<li>You have to figure out your test cases. This is an <strong>ESSENTIAL</strong> skill for a computer scientist or data engineer.</li>
+</ul>
+<ul>
+<li>The CAs and I will try to break your program with our own tests.</li>
+</ul>
+
+</div>
+</div>
 </div>
     </div>
   </div>
