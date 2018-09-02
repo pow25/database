@@ -59,6 +59,8 @@ HTML versions of the lectures.
 
 The HTML for the various lectures are:
 - [Lecture 1: Introduction and Overview](./Notebooks/w4111-L1-f2018-Introduction.html)
-- [Lecture 2: Lecture 2: Begin Working with Data, Data Modeling, Databases and Applications](./Notebooks/w4111-L2-f2018-ModelRelational.html)
+- [Lecture 2: Begin Working with Data, Data Modeling, Databases and Applications](./Notebooks/w4111-L2-f2018-ModelRelational.html)
+- [Lecture 3: Relational Databases and Web Applications](./Notebooks/w4111-L3-f2018-RelationalAndWebV1.html)
+- [Lecture 4: SQL Details](./Notebooks/w4111-L4-f2018-SQL-Details.html)
 
 More to come
