@@ -11828,7 +11828,7 @@ $( document ).ready(function(){
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> sql
@@ -11850,16 +11850,14 @@ $( document ).ready(function(){
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>The sql extension is already loaded. To reload it, use:
-  %reload_ext sql
-1 rows affected.
+<pre>1 rows affected.
 </pre>
 </div>
 </div>
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[3]:</div>
+<div class="prompt output_prompt">Out[1]:</div>
 
 
 
@@ -11938,7 +11936,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="From-Piazza">From Piazza<a class="anchor-link" href="#From-Piazza">&#182;</a></h3><table>
+<h3 id="From-Piazza">From Piazza<a class="anchor-link" href="#From-Piazza">&#182;</a></h3><h4 id="Indexing-in-Memory">Indexing in Memory<a class="anchor-link" href="#Indexing-in-Memory">&#182;</a></h4><table>
 <thead><tr>
 <th style="text-align:center"><img src="../images/piazza_1.jpeg"></th>
 </tr>
@@ -11961,7 +11959,7 @@ $( document ).ready(function(){
 <li>This is an insightful question.</li>
 </ul>
 <ul>
-<li>Python dictionaries implement a <em>hash index</em> on elements based on the key.</li>
+<li>Python dictionaries implement a <em>hash index</em> on elements based on the key. Pandas also supports indexes.</li>
 </ul>
 <ul>
 <li>RDBs support hash indexes but also support a binary tree link index, which helps with queries using &gt;, &gt;=, ...</li>
@@ -11971,6 +11969,283 @@ $( document ).ready(function(){
 </ul>
 <ul>
 <li>We will cover these concepts latter.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Constructor-vs-Explicit-load()-Call">Constructor vs Explicit <code>load()</code> Call<a class="anchor-link" href="#Constructor-vs-Explicit-load()-Call">&#182;</a></h4><table>
+<thead><tr>
+<th style="text-align:center"><img src="../images/piazza_2.jpeg"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>Good Piazza Question</strong></td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li><p>Another good question.</p>
+</li>
+<li><p>Consider the test function below:</p>
+</li>
+</ul>
+
+<pre><code>def testC():
+    try:
+        # Create the DataTable and load it.
+        csvt = CSVTable.CSVTable("People", "People.csv", ["playerID"])
+        csvt.load()
+
+        # Print some information about the table.
+        print("Initial table is:")
+        print(csvt)
+
+        # Define the template and fields to select.
+        t2 = {"nameLast": "Williams", "throws": "R"}
+        fields2 = ['nameLast', 'nameFirst', 'birthCountry', 'throws', 'bats']
+        print("Testing template ", t2, " on table", "People")
+        print("With field list = ", fields2)
+
+        # Run and print query. Notice the result is also a Data Table
+        result = csvt.find_by_template(t2, fields2)
+        print("\n\nQuery result is ")
+        print(result)
+
+        print("\n\nNow querying the derived table.")
+        t3 = { "nameFirst": "Ted"}
+        result2 = result.find_by_template(t3, None)
+        print("\n\nQuery2 result is ")
+        print(result2)
+    except Exception as e:
+        print("Got exception = ", str(e))</code></pre>
+<ul>
+<li>The result of the first query is <strong>a CSVTable.</strong> The relational algebra is closed under operators. Queries on table always produce table.</li>
+</ul>
+<ul>
+<li>Subsequent code queries the result of the first query. The result of the first query is a <strong>derived</strong> table.</li>
+</ul>
+<ul>
+<li>The program output is below. I do not expect you to implement all of the complexity and nuances. My implementation is for teaching concepts.</li>
+</ul>
+
+<pre><code>Initial table is:
+Name: People, File: People.csv, No of rows: 19370, Key: ['playerID']
+playerID       birthYear      birthMonth     birthDay       birthCountry   birthState     birthCity      deathYear      deathMonth     deathDay       deathCountry   deathState     deathCity      nameFirst      nameLast       nameGiven      weight         height         bats           throws         debut          finalGame      retroID        bbrefID        
+aardsda01      1981           12             27             USA            CO             Denver                                                                                                   David          Aardsma        David Allan    215            75             R              R              2004-04-06     2015-08-23     aardd001       aardsda01      
+aaronha01      1934           2              5              USA            AL             Mobile                                                                                                   Hank           Aaron          Henry Louis    180            72             R              R              1954-04-13     1976-10-03     aaroh101       aaronha01      
+aaronto01      1939           8              5              USA            AL             Mobile         1984           8              16             USA            GA             Atlanta        Tommie         Aaron          Tommie Lee     190            75             R              R              1962-04-10     1971-09-26     aarot101       aaronto01      
+aasedo01       1954           9              8              USA            CA             Orange                                                                                                   Don            Aase           Donald William 190            75             R              R              1977-07-26     1990-10-03     aased001       aasedo01       
+abadan01       1972           8              25             USA            FL             Palm Beach                                                                                               Andy           Abad           Fausto Andres  184            73             L              L              2001-09-10     2006-04-13     abada001       abadan01       
+...            ...            ...            ...            ...            ...            ...            ...            ...            ...            ...            ...            ...            ...            ...            ...            ...            ...            ...            ...            ...            ...            ...            ...            
+zychto01       1990           8              7              USA            IL             Monee                                                                                                    Tony           Zych           Anthony Aaron  190            75             R              R              2015-09-04     2017-08-19     zycht001       zychto01       
+zwilldu01      1888           11             2              USA            MO             St. Louis      1978           3              27             USA            CA             La Crescenta   Dutch          Zwilling       Edward Harrison160            66             L              L              1910-08-14     1916-07-12     zwild101       zwilldu01      
+zuverge01      1924           8              20             USA            MI             Holland        2014           9              8              USA            AZ             Tempe          George         Zuverink       George         195            76             R              R              1951-04-21     1959-06-15     zuveg101       zuverge01      
+zuvelpa01      1958           10             31             USA            CA             San Mateo                                                                                                Paul           Zuvella        Paul           173            72             R              R              1982-09-04     1991-05-02     zuvep001       zuvelpa01      
+zupofr01       1939           8              29             USA            CA             San Francisco  2005           3              25             USA            CA             Burlingame     Frank          Zupo           Frank Joseph   182            71             L              R              1957-07-01     1961-05-09     zupof101       zupofr01       
+
+Testing template  {'nameLast': 'Williams', 'throws': 'R'}  on table People
+With field list =  ['nameLast', 'nameFirst', 'birthCountry', 'throws', 'bats']
+
+
+Query result is 
+Name: PROJECT_SELECTED_People.csv, File: DERIVED, No of rows: 61, Key: None
+nameLast       nameFirst      birthCountry   throws         bats           
+Williams       Al             USA            R              R              
+Williams       Albert         Nicaragua      R              R              
+Williams       Art            USA            R              L              
+Williams       Bernie         USA            R              R              
+Williams       Bernie         P.R.           R              B              
+...            ...            ...            ...            ...            
+Williams       Woody          USA            R              R              
+Williams       Woody          USA            R              R              
+Williams       Walt           USA            R              R              
+Williams       Trevor         USA            R              R              
+Williams       Todd           USA            R              R              
+
+
+
+Now querying the derived table.
+
+
+Query2 result is 
+Name: SELECTED_DERIVED, File: DERIVED, No of rows: 1, Key: None
+nameLast       nameFirst      birthCountry   throws         bats           
+Williams       Ted            USA            R              L</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Nothing-Found-by-find_by_template()">Nothing Found by <code>find_by_template()</code><a class="anchor-link" href="#Nothing-Found-by-find_by_template()">&#182;</a></h4><table>
+<thead><tr>
+<th style="text-align:center"><img src="../images/piazza4.jpeg"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>NULL Response</strong></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>But let's try this out.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pymysql.cursors</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="c1"># The database server is running somewhere in the network.</span>
+<span class="c1"># I must specify the IP address (HW server) and port number</span>
+<span class="c1"># (connection that SW server is listening on)</span>
+<span class="c1"># Also, I do not want to allow anyone to access the database</span>
+<span class="c1"># and different people have different permissions. So, the</span>
+<span class="c1"># client must log on.</span>
+
+
+<span class="c1"># Connect to the database over the network. Use the connection</span>
+<span class="c1"># to send commands to the DB.</span>
+<span class="n">cnx</span> <span class="o">=</span> <span class="n">pymysql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span>
+                             <span class="n">user</span><span class="o">=</span><span class="s1">&#39;dbuser&#39;</span><span class="p">,</span>
+                             <span class="n">password</span><span class="o">=</span><span class="s1">&#39;dbuser&#39;</span><span class="p">,</span>
+                             <span class="n">db</span><span class="o">=</span><span class="s1">&#39;lahman2017&#39;</span><span class="p">,</span>
+                             <span class="n">charset</span><span class="o">=</span><span class="s1">&#39;utf8mb4&#39;</span><span class="p">,</span>
+                             <span class="n">cursorclass</span><span class="o">=</span><span class="n">pymysql</span><span class="o">.</span><span class="n">cursors</span><span class="o">.</span><span class="n">DictCursor</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">DBRunQuery</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>
+    <span class="n">cursor</span><span class="o">=</span><span class="n">cnx</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Query = &quot;</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">q</span><span class="p">);</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+    <span class="c1">#print(&quot;Query result = &quot;, r)</span>
+    <span class="k">return</span> <span class="n">r</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">DBRunQuery</span><span class="p">(</span><span class="s2">&quot;select * from people where playerid=&#39;cat&#39;&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The result is of type: &quot;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;OK. The answer is an instance of the class &#39;tuple.&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Query =  select * from people where playerid=&#39;cat&#39;
+The result is of type:  &lt;class &#39;tuple&#39;&gt;
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Nothing there!&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;There is SOMETHING THERE.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Tupled length is = &quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;A row = &quot;</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Printed all the rows.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Seems clear to me that the answer is &#39;an empty set&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>There is SOMETHING THERE.
+Tupled length is =  0
+Printed all the rows.
+
+Seems clear to me that the answer is &#39;an empty set&#39;
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>We will see today that the <em>relational model</em> is an <em>algebra</em> and is closed under its operators.</li>
+</ul>
+<ul>
+<li>A relational expression <strong>always:</strong><ul>
+<li>Operates on relations (tables)</li>
+<li>Produces a relation or table.</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>The empty table or relation is a table/relation.</li>
 </ul>
 
 </div>
