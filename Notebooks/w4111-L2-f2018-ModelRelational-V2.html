@@ -11828,7 +11828,7 @@ $( document ).ready(function(){
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> sql
@@ -11857,7 +11857,7 @@ $( document ).ready(function(){
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[1]:</div>
+<div class="prompt output_prompt">Out[6]:</div>
 
 
 
@@ -11936,7 +11936,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="From-Piazza">From Piazza<a class="anchor-link" href="#From-Piazza">&#182;</a></h3><h4 id="Indexing-in-Memory">Indexing in Memory<a class="anchor-link" href="#Indexing-in-Memory">&#182;</a></h4><table>
+<h3 id="Open-Q&amp;A">Open Q&amp;A<a class="anchor-link" href="#Open-Q&amp;A">&#182;</a></h3><h3 id="From-Piazza">From Piazza<a class="anchor-link" href="#From-Piazza">&#182;</a></h3><h4 id="Indexing-in-Memory">Indexing in Memory<a class="anchor-link" href="#Indexing-in-Memory">&#182;</a></h4><table>
 <thead><tr>
 <th style="text-align:center"><img src="../images/piazza_1.jpeg"></th>
 </tr>
@@ -11998,10 +11998,10 @@ $( document ).ready(function(){
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
-<li><p>Another good question.</p>
-</li>
-<li><p>Consider the test function below:</p>
-</li>
+<li>Another good question.</li>
+</ul>
+<ul>
+<li>Consider the test function below:</li>
 </ul>
 
 <pre><code>def testC():
@@ -12113,7 +12113,7 @@ Williams       Ted            USA            R              L</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pymysql.cursors</span>
@@ -12154,7 +12154,7 @@ Williams       Ted            USA            R              L</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">DBRunQuery</span><span class="p">(</span><span class="s2">&quot;select * from people where playerid=&#39;cat&#39;&quot;</span><span class="p">)</span>
@@ -12178,6 +12178,7 @@ Williams       Ted            USA            R              L</code></pre>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Query =  select * from people where playerid=&#39;cat&#39;
 The result is of type:  &lt;class &#39;tuple&#39;&gt;
+OK. The answer is an instance of the class &#39;tuple.&#39;
 </pre>
 </div>
 </div>
@@ -12188,14 +12189,14 @@ The result is of type:  &lt;class &#39;tuple&#39;&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Nothing there!&quot;</span><span class="p">)</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;There is SOMETHING THERE.&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Tupled length is = &quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Tuple length is = &quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;A row = &quot;</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -12218,7 +12219,7 @@ The result is of type:  &lt;class &#39;tuple&#39;&gt;
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>There is SOMETHING THERE.
-Tupled length is =  0
+Tuple length is =  0
 Printed all the rows.
 
 Seems clear to me that the answer is &#39;an empty set&#39;
@@ -12255,9 +12256,64 @@ Seems clear to me that the answer is &#39;an empty set&#39;
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="save()-vs.-Write-File-on-insert()-or-delete()"><code>save()</code> vs. Write File on <code>insert() or delete()</code><a class="anchor-link" href="#save()-vs.-Write-File-on-insert()-or-delete()">&#182;</a></h4><table>
+<thead><tr>
+<th style="text-align:center"><img src="../images/piazza5.jpeg"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>Cache Write Models</strong></td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>We will see in <strong>Module I</strong> on database management system architecture and implementation that this is an incredibly complex and profound question.</li>
+</ul>
+<ul>
+<li>Always reading from the in-memory data makes sense.</li>
+</ul>
+<ul>
+<li>Consider <code>insert()</code> and <code>delete()</code>
+<br><ul>
+<li>Writing the file on every update has several benefits:<ul>
+<li>Less likely to lose changes if there is a failure.</li>
+<li>Simple.</li>
+<li>Other programs can read file and see updates.</li>
+</ul>
+</li>
+<li>The main disadvantage is performance overhead.<ul>
+<li>A tuple may change several times during execution. Why write every change instead of the last one.</li>
+<li>File open and close on every update.</li>
+<li>Saving the entire file (or changed tuples) once is much more efficient.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>Database management systems have very sophisticated algorithms and software to optimize behavior and performance for saving updates.</li>
+</ul>
+<ul>
+<li>For the homework, either approach is fine.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Today's-Lecture">Today's Lecture<a class="anchor-link" href="#Today's-Lecture">&#182;</a></h2><ol>
-<li>Common Database Concepts
-<br><br></li>
 <li>Introduction to Relational Algebra/Model and SQL Realization<br>
 <br></li>
 <li>Examples of<ol>
@@ -12465,7 +12521,7 @@ Seems clear to me that the answer is &#39;an empty set&#39;
 </ul>
 </li>
 <li>Integrity Constraints: The database engine will not allow creates or updates that produce obviously invalid data, e.g.<ul>
-<li>You cannot create a person thar does not have a first and last name.</li>
+<li>You cannot create a person that does not have a first and last name.</li>
 <li><code>throws</code> can only be a single character: 'L', 'R', 'B'</li>
 <li>The various month attributes can only be things like '1', '11'.</li>
 </ul>
@@ -12511,10 +12567,10 @@ Seems clear to me that the answer is &#39;an empty set&#39;
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Manipulating-and-Processing-Information">Manipulating and Processing Information<a class="anchor-link" href="#Manipulating-and-Processing-Information">&#182;</a></h3><h4 id="Computer-Languages">Computer Languages<a class="anchor-link" href="#Computer-Languages">&#182;</a></h4><ul>
-<li>A declarative language's statements express what is supposed to happen/be output, but not how to do it.</li>
+<li>A [declarative language's] (<a href="https://en.wikipedia.org/wiki/Declarative_programming">https://en.wikipedia.org/wiki/Declarative_programming</a>) statements express what is supposed to happen/be output, but not how to do it. The opposite of a declarative language is an <a href="https://en.wikipedia.org/wiki/Imperative_programming">imperative language.</a></li>
 </ul>
 <ul>
-<li>Most languages with which you are familiar are <a href="https://en.wikipedia.org/wiki/Imperative_programming">imperative languages.</a></li>
+<li>Most languages with which you are familiar are imperative languages.</li>
 </ul>
 <ul>
 <li>The most distinguishing feature is that declarative languages do not have control-flow constructs, e.g.<ul>
@@ -12524,7 +12580,7 @@ Seems clear to me that the answer is &#39;an empty set&#39;
 </li>
 </ul>
 <ul>
-<li>The relation model, SQL and many DB languages are (primarily) <a href="https://en.wikipedia.org/wiki/Declarative_programming">declarative languages.</a></li>
+<li>The relation model, SQL and many DB languages are (primarily) declarative languages.</li>
 </ul>
 
 </div>
@@ -12652,6 +12708,7 @@ Seems clear to me that the answer is &#39;an empty set&#39;
 <li>SQL supports additional operations, e.g<ul>
 <li>GROUP BY</li>
 <li>ORDER BY</li>
+<li>INSERT, DELETE, UPDATE</li>
 </ul>
 </li>
 </ul>
@@ -12686,7 +12743,7 @@ Seems clear to me that the answer is &#39;an empty set&#39;
 </li>
 </ul>
 <ul>
-<li><span style="color: red;">Projection, Selection and Keys are required for HW 1. </span></li>
+<li><span style="color: red;">Projection, Selection and Keys are required for HW 2. </span></li>
 </ul>
 <ul>
 <li>We will cover the other operations in the next few lectures.</li>
@@ -12851,7 +12908,7 @@ Seems clear to me that the answer is &#39;an empty set&#39;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[48]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">sql</span> select * from People where nameLast=&#39;Williams&#39;;
@@ -12878,7 +12935,7 @@ Seems clear to me that the answer is &#39;an empty set&#39;
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[48]:</div>
+<div class="prompt output_prompt">Out[7]:</div>
 
 
 
@@ -13006,7 +13063,7 @@ Seems clear to me that the answer is &#39;an empty set&#39;
         <td>Williams</td>
         <td>Arthur Frank</td>
         <td></td>
-        <td></td>
+        <td>None</td>
         <td>L</td>
         <td>R</td>
         <td>1902-05-07</td>
@@ -13249,58 +13306,6 @@ Seems clear to me that the answer is &#39;an empty set&#39;
         <td>willida01</td>
     </tr>
     <tr>
-        <td>willida02</td>
-        <td>1881</td>
-        <td>2</td>
-        <td>7</td>
-        <td>USA</td>
-        <td>PA</td>
-        <td>Scranton</td>
-        <td>1918</td>
-        <td>4</td>
-        <td>25</td>
-        <td>USA</td>
-        <td>AR</td>
-        <td>Hot Springs</td>
-        <td>Dave</td>
-        <td>Williams</td>
-        <td>David Owen</td>
-        <td>167</td>
-        <td>71</td>
-        <td>R</td>
-        <td>L</td>
-        <td>1902-07-02</td>
-        <td>1902-08-03</td>
-        <td>willd103</td>
-        <td>willida02</td>
-    </tr>
-    <tr>
-        <td>willida03</td>
-        <td>1927</td>
-        <td>11</td>
-        <td>2</td>
-        <td>USA</td>
-        <td>TX</td>
-        <td>Dallas</td>
-        <td>2009</td>
-        <td>8</td>
-        <td>17</td>
-        <td>USA</td>
-        <td>TX</td>
-        <td>Farmers Branch</td>
-        <td>Davey</td>
-        <td>Williams</td>
-        <td>David Carlous</td>
-        <td>160</td>
-        <td>70</td>
-        <td>R</td>
-        <td>R</td>
-        <td>1949-09-16</td>
-        <td>1955-07-31</td>
-        <td>willd102</td>
-        <td>willida03</td>
-    </tr>
-    <tr>
         <td>willida05</td>
         <td>1958</td>
         <td>2</td>
@@ -13351,6 +13356,58 @@ Seems clear to me that the answer is &#39;an empty set&#39;
         <td>1989-07-02</td>
         <td>willd001</td>
         <td>willida06</td>
+    </tr>
+    <tr>
+        <td>willida02</td>
+        <td>1881</td>
+        <td>2</td>
+        <td>7</td>
+        <td>USA</td>
+        <td>PA</td>
+        <td>Scranton</td>
+        <td>1918</td>
+        <td>4</td>
+        <td>25</td>
+        <td>USA</td>
+        <td>AR</td>
+        <td>Hot Springs</td>
+        <td>Dave</td>
+        <td>Williams</td>
+        <td>David Owen</td>
+        <td>167</td>
+        <td>71</td>
+        <td>R</td>
+        <td>L</td>
+        <td>1902-07-02</td>
+        <td>1902-08-03</td>
+        <td>willd103</td>
+        <td>willida02</td>
+    </tr>
+    <tr>
+        <td>willida03</td>
+        <td>1927</td>
+        <td>11</td>
+        <td>2</td>
+        <td>USA</td>
+        <td>TX</td>
+        <td>Dallas</td>
+        <td>2009</td>
+        <td>8</td>
+        <td>17</td>
+        <td>USA</td>
+        <td>TX</td>
+        <td>Farmers Branch</td>
+        <td>Davey</td>
+        <td>Williams</td>
+        <td>David Carlous</td>
+        <td>160</td>
+        <td>70</td>
+        <td>R</td>
+        <td>R</td>
+        <td>1949-09-16</td>
+        <td>1955-07-31</td>
+        <td>willd102</td>
+        <td>willida03</td>
     </tr>
     <tr>
         <td>willida07</td>
@@ -13665,32 +13722,6 @@ Seems clear to me that the answer is &#39;an empty set&#39;
         <td>willige01</td>
     </tr>
     <tr>
-        <td>willige02</td>
-        <td>1966</td>
-        <td>8</td>
-        <td>10</td>
-        <td>USA</td>
-        <td>LA</td>
-        <td>New Orleans</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>Gerald</td>
-        <td>Williams</td>
-        <td>Gerald Floyd</td>
-        <td>190</td>
-        <td>74</td>
-        <td>R</td>
-        <td>R</td>
-        <td>1992-09-15</td>
-        <td>2005-10-02</td>
-        <td>willg001</td>
-        <td>willige02</td>
-    </tr>
-    <tr>
         <td>willige03</td>
         <td>1969</td>
         <td>4</td>
@@ -13715,6 +13746,32 @@ Seems clear to me that the answer is &#39;an empty set&#39;
         <td>2000-09-13</td>
         <td>willg002</td>
         <td>willige03</td>
+    </tr>
+    <tr>
+        <td>willige02</td>
+        <td>1966</td>
+        <td>8</td>
+        <td>10</td>
+        <td>USA</td>
+        <td>LA</td>
+        <td>New Orleans</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>Gerald</td>
+        <td>Williams</td>
+        <td>Gerald Floyd</td>
+        <td>190</td>
+        <td>74</td>
+        <td>R</td>
+        <td>R</td>
+        <td>1992-09-15</td>
+        <td>2005-10-02</td>
+        <td>willg001</td>
+        <td>willige02</td>
     </tr>
     <tr>
         <td>willigl01</td>
@@ -13762,7 +13819,7 @@ Seems clear to me that the answer is &#39;an empty set&#39;
         <td>170</td>
         <td>71</td>
         <td></td>
-        <td></td>
+        <td>None</td>
         <td>1890-04-18</td>
         <td>1890-04-22</td>
         <td>willg102</td>
@@ -13899,6 +13956,32 @@ Seems clear to me that the answer is &#39;an empty set&#39;
         <td>willije01</td>
     </tr>
     <tr>
+        <td>williji04</td>
+        <td>1947</td>
+        <td>4</td>
+        <td>29</td>
+        <td>USA</td>
+        <td>LA</td>
+        <td>Zachary</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>Jim</td>
+        <td>Williams</td>
+        <td>James Alfred</td>
+        <td>190</td>
+        <td>74</td>
+        <td>R</td>
+        <td>R</td>
+        <td>1969-09-08</td>
+        <td>1970-09-30</td>
+        <td>willj108</td>
+        <td>williji04</td>
+    </tr>
+    <tr>
         <td>williji01</td>
         <td>1876</td>
         <td>12</td>
@@ -13923,6 +14006,32 @@ Seems clear to me that the answer is &#39;an empty set&#39;
         <td>1909-10-03</td>
         <td>willj106</td>
         <td>williji01</td>
+    </tr>
+    <tr>
+        <td>williji99</td>
+        <td>1847</td>
+        <td>1</td>
+        <td>4</td>
+        <td>USA</td>
+        <td>OH</td>
+        <td>Catawba</td>
+        <td>1918</td>
+        <td>10</td>
+        <td>23</td>
+        <td>USA</td>
+        <td>NY</td>
+        <td>Westbury</td>
+        <td>Jimmy</td>
+        <td>Williams</td>
+        <td>James Andrew</td>
+        <td></td>
+        <td>None</td>
+        <td></td>
+        <td>None</td>
+        <td></td>
+        <td></td>
+        <td>willj801</td>
+        <td>williji99</td>
     </tr>
     <tr>
         <td>williji03</td>
@@ -13951,58 +14060,6 @@ Seems clear to me that the answer is &#39;an empty set&#39;
         <td>williji03</td>
     </tr>
     <tr>
-        <td>williji04</td>
-        <td>1947</td>
-        <td>4</td>
-        <td>29</td>
-        <td>USA</td>
-        <td>LA</td>
-        <td>Zachary</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>Jim</td>
-        <td>Williams</td>
-        <td>James Alfred</td>
-        <td>190</td>
-        <td>74</td>
-        <td>R</td>
-        <td>R</td>
-        <td>1969-09-08</td>
-        <td>1970-09-30</td>
-        <td>willj108</td>
-        <td>williji04</td>
-    </tr>
-    <tr>
-        <td>williji99</td>
-        <td>1847</td>
-        <td>1</td>
-        <td>4</td>
-        <td>USA</td>
-        <td>OH</td>
-        <td>Catawba</td>
-        <td>1918</td>
-        <td>10</td>
-        <td>23</td>
-        <td>USA</td>
-        <td>NY</td>
-        <td>Westbury</td>
-        <td>Jimmy</td>
-        <td>Williams</td>
-        <td>James Andrew</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>willj801</td>
-        <td>williji99</td>
-    </tr>
-    <tr>
         <td>willijo02</td>
         <td>1889</td>
         <td>7</td>
@@ -14029,30 +14086,30 @@ Seems clear to me that the answer is &#39;an empty set&#39;
         <td>willijo02</td>
     </tr>
     <tr>
-        <td>willijo99</td>
-        <td>1885</td>
+        <td>willike03</td>
+        <td>1972</td>
         <td>4</td>
-        <td>6</td>
+        <td>21</td>
         <td>USA</td>
-        <td>TX</td>
-        <td>Seguin</td>
-        <td>1951</td>
-        <td>2</td>
-        <td>25</td>
-        <td>USA</td>
-        <td>NY</td>
-        <td>New York</td>
-        <td>Smokey Joe</td>
+        <td>PA</td>
+        <td>Bedford</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>Keith</td>
         <td>Williams</td>
-        <td>Joseph</td>
+        <td>David Keith</td>
         <td>190</td>
-        <td>76</td>
+        <td>72</td>
         <td>R</td>
         <td>R</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>willijo99</td>
+        <td>1996-06-07</td>
+        <td>1996-06-23</td>
+        <td>willk002</td>
+        <td>willike03</td>
     </tr>
     <tr>
         <td>willike01</td>
@@ -14107,32 +14164,6 @@ Seems clear to me that the answer is &#39;an empty set&#39;
         <td>willike02</td>
     </tr>
     <tr>
-        <td>willike03</td>
-        <td>1972</td>
-        <td>4</td>
-        <td>21</td>
-        <td>USA</td>
-        <td>PA</td>
-        <td>Bedford</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>Keith</td>
-        <td>Williams</td>
-        <td>David Keith</td>
-        <td>190</td>
-        <td>72</td>
-        <td>R</td>
-        <td>R</td>
-        <td>1996-06-07</td>
-        <td>1996-06-23</td>
-        <td>willk002</td>
-        <td>willike03</td>
-    </tr>
-    <tr>
         <td>willile01</td>
         <td>1893</td>
         <td>3</td>
@@ -14185,6 +14216,32 @@ Seems clear to me that the answer is &#39;an empty set&#39;
         <td>willile03</td>
     </tr>
     <tr>
+        <td>willima02</td>
+        <td>1953</td>
+        <td>7</td>
+        <td>28</td>
+        <td>USA</td>
+        <td>NY</td>
+        <td>Elmira</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>Mark</td>
+        <td>Williams</td>
+        <td>Mark Westley</td>
+        <td>180</td>
+        <td>72</td>
+        <td>L</td>
+        <td>L</td>
+        <td>1977-05-20</td>
+        <td>1977-05-22</td>
+        <td>willm105</td>
+        <td>willima02</td>
+    </tr>
+    <tr>
         <td>willima01</td>
         <td>1893</td>
         <td>2</td>
@@ -14211,30 +14268,30 @@ Seems clear to me that the answer is &#39;an empty set&#39;
         <td>willima01</td>
     </tr>
     <tr>
-        <td>willima02</td>
-        <td>1953</td>
-        <td>7</td>
-        <td>28</td>
+        <td>willima07</td>
+        <td>1991</td>
+        <td>8</td>
+        <td>21</td>
         <td>USA</td>
-        <td>NY</td>
-        <td>Elmira</td>
+        <td>RI</td>
+        <td>Pawtucket</td>
         <td></td>
         <td></td>
         <td></td>
         <td></td>
         <td></td>
         <td></td>
-        <td>Mark</td>
+        <td>Mason</td>
         <td>Williams</td>
-        <td>Mark Westley</td>
-        <td>180</td>
-        <td>72</td>
+        <td>Mason</td>
+        <td>195</td>
+        <td>73</td>
         <td>L</td>
-        <td>L</td>
-        <td>1977-05-20</td>
-        <td>1977-05-22</td>
-        <td>willm105</td>
-        <td>willima02</td>
+        <td>R</td>
+        <td>2015-06-12</td>
+        <td>2017-06-25</td>
+        <td>willm007</td>
+        <td>willima10</td>
     </tr>
     <tr>
         <td>willima03</td>
@@ -14315,30 +14372,30 @@ Seems clear to me that the answer is &#39;an empty set&#39;
         <td>willima09</td>
     </tr>
     <tr>
-        <td>willima07</td>
-        <td>1991</td>
-        <td>8</td>
-        <td>21</td>
+        <td>willimi03</td>
+        <td>1968</td>
+        <td>7</td>
+        <td>29</td>
         <td>USA</td>
-        <td>RI</td>
-        <td>Pawtucket</td>
+        <td>VA</td>
+        <td>Radford</td>
         <td></td>
         <td></td>
         <td></td>
         <td></td>
         <td></td>
         <td></td>
-        <td>Mason</td>
+        <td>Mike</td>
         <td>Williams</td>
-        <td>Mason</td>
-        <td>195</td>
-        <td>73</td>
-        <td>L</td>
+        <td>Michael Darren</td>
+        <td>190</td>
+        <td>74</td>
         <td>R</td>
-        <td>2015-06-12</td>
-        <td>2017-06-25</td>
-        <td>willm007</td>
-        <td>willima10</td>
+        <td>R</td>
+        <td>1992-06-30</td>
+        <td>2003-09-28</td>
+        <td>willm005</td>
+        <td>willimi03</td>
     </tr>
     <tr>
         <td>willimi02</td>
@@ -14365,32 +14422,6 @@ Seems clear to me that the answer is &#39;an empty set&#39;
         <td>1997-05-10</td>
         <td>willm002</td>
         <td>willimi02</td>
-    </tr>
-    <tr>
-        <td>willimi03</td>
-        <td>1968</td>
-        <td>7</td>
-        <td>29</td>
-        <td>USA</td>
-        <td>VA</td>
-        <td>Radford</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>Mike</td>
-        <td>Williams</td>
-        <td>Michael Darren</td>
-        <td>190</td>
-        <td>74</td>
-        <td>R</td>
-        <td>R</td>
-        <td>1992-06-30</td>
-        <td>2003-09-28</td>
-        <td>willm005</td>
-        <td>willimi03</td>
     </tr>
     <tr>
         <td>willimu01</td>
@@ -14601,58 +14632,6 @@ Seems clear to me that the answer is &#39;an empty set&#39;
         <td>willire02</td>
     </tr>
     <tr>
-        <td>williri01</td>
-        <td>1882</td>
-        <td>1</td>
-        <td>31</td>
-        <td>USA</td>
-        <td>IL</td>
-        <td>Carthage</td>
-        <td>1933</td>
-        <td>7</td>
-        <td>23</td>
-        <td>USA</td>
-        <td>IA</td>
-        <td>Keokuk</td>
-        <td>Rip</td>
-        <td>Williams</td>
-        <td>Alva Mitchell</td>
-        <td>187</td>
-        <td>71</td>
-        <td>R</td>
-        <td>R</td>
-        <td>1911-04-12</td>
-        <td>1918-06-09</td>
-        <td>willr104</td>
-        <td>williri01</td>
-    </tr>
-    <tr>
-        <td>williri02</td>
-        <td>1893</td>
-        <td>12</td>
-        <td>18</td>
-        <td>USA</td>
-        <td>CA</td>
-        <td>Santa Cruz</td>
-        <td>1966</td>
-        <td>4</td>
-        <td>24</td>
-        <td>USA</td>
-        <td>AZ</td>
-        <td>Cottonwood</td>
-        <td>Rinaldo</td>
-        <td>Williams</td>
-        <td>Rinaldo Louis</td>
-        <td></td>
-        <td></td>
-        <td>L</td>
-        <td>R</td>
-        <td>1914-10-08</td>
-        <td>1914-10-10</td>
-        <td>willr103</td>
-        <td>williri02</td>
-    </tr>
-    <tr>
         <td>williri03</td>
         <td>1952</td>
         <td>11</td>
@@ -14677,6 +14656,58 @@ Seems clear to me that the answer is &#39;an empty set&#39;
         <td>1979-09-26</td>
         <td>willr101</td>
         <td>williri03</td>
+    </tr>
+    <tr>
+        <td>williri02</td>
+        <td>1893</td>
+        <td>12</td>
+        <td>18</td>
+        <td>USA</td>
+        <td>CA</td>
+        <td>Santa Cruz</td>
+        <td>1966</td>
+        <td>4</td>
+        <td>24</td>
+        <td>USA</td>
+        <td>AZ</td>
+        <td>Cottonwood</td>
+        <td>Rinaldo</td>
+        <td>Williams</td>
+        <td>Rinaldo Louis</td>
+        <td></td>
+        <td>None</td>
+        <td>L</td>
+        <td>R</td>
+        <td>1914-10-08</td>
+        <td>1914-10-10</td>
+        <td>willr103</td>
+        <td>williri02</td>
+    </tr>
+    <tr>
+        <td>williri01</td>
+        <td>1882</td>
+        <td>1</td>
+        <td>31</td>
+        <td>USA</td>
+        <td>IL</td>
+        <td>Carthage</td>
+        <td>1933</td>
+        <td>7</td>
+        <td>23</td>
+        <td>USA</td>
+        <td>IA</td>
+        <td>Keokuk</td>
+        <td>Rip</td>
+        <td>Williams</td>
+        <td>Alva Mitchell</td>
+        <td>187</td>
+        <td>71</td>
+        <td>R</td>
+        <td>R</td>
+        <td>1911-04-12</td>
+        <td>1918-06-09</td>
+        <td>willr104</td>
+        <td>williri01</td>
     </tr>
     <tr>
         <td>willish01</td>
@@ -14705,30 +14736,30 @@ Seems clear to me that the answer is &#39;an empty set&#39;
         <td>willish01</td>
     </tr>
     <tr>
-        <td>willist01</td>
-        <td>1892</td>
-        <td>1</td>
-        <td>31</td>
-        <td>USA</td>
-        <td>MT</td>
-        <td>Cascade</td>
-        <td>1979</td>
+        <td>willijo99</td>
+        <td>1885</td>
+        <td>4</td>
         <td>6</td>
-        <td>29</td>
         <td>USA</td>
-        <td>MN</td>
-        <td>Deer River</td>
-        <td>Steamboat</td>
+        <td>TX</td>
+        <td>Seguin</td>
+        <td>1951</td>
+        <td>2</td>
+        <td>25</td>
+        <td>USA</td>
+        <td>NY</td>
+        <td>New York</td>
+        <td>Smokey Joe</td>
         <td>Williams</td>
-        <td>Rees Gephardt</td>
-        <td>170</td>
-        <td>71</td>
-        <td>L</td>
+        <td>Joseph</td>
+        <td>190</td>
+        <td>76</td>
         <td>R</td>
-        <td>1914-07-12</td>
-        <td>1916-10-01</td>
-        <td>wills101</td>
-        <td>willist01</td>
+        <td>R</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>willijo99</td>
     </tr>
     <tr>
         <td>willist02</td>
@@ -14755,6 +14786,32 @@ Seems clear to me that the answer is &#39;an empty set&#39;
         <td>1972-08-01</td>
         <td>wills102</td>
         <td>willist02</td>
+    </tr>
+    <tr>
+        <td>willist01</td>
+        <td>1892</td>
+        <td>1</td>
+        <td>31</td>
+        <td>USA</td>
+        <td>MT</td>
+        <td>Cascade</td>
+        <td>1979</td>
+        <td>6</td>
+        <td>29</td>
+        <td>USA</td>
+        <td>MN</td>
+        <td>Deer River</td>
+        <td>Steamboat</td>
+        <td>Williams</td>
+        <td>Rees Gephardt</td>
+        <td>170</td>
+        <td>71</td>
+        <td>L</td>
+        <td>R</td>
+        <td>1914-07-12</td>
+        <td>1916-10-01</td>
+        <td>wills101</td>
+        <td>willist01</td>
     </tr>
     <tr>
         <td>willita01</td>
@@ -14809,32 +14866,6 @@ Seems clear to me that the answer is &#39;an empty set&#39;
         <td>willite01</td>
     </tr>
     <tr>
-        <td>willito01</td>
-        <td>1870</td>
-        <td>8</td>
-        <td>19</td>
-        <td>USA</td>
-        <td>OH</td>
-        <td>Minersville</td>
-        <td>1940</td>
-        <td>7</td>
-        <td>27</td>
-        <td>USA</td>
-        <td>OH</td>
-        <td>Columbus</td>
-        <td>Tom</td>
-        <td>Williams</td>
-        <td>Thomas C.</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>1892-05-01</td>
-        <td>1893-09-14</td>
-        <td>willt101</td>
-        <td>willito01</td>
-    </tr>
-    <tr>
         <td>willito02</td>
         <td>1971</td>
         <td>2</td>
@@ -14859,6 +14890,32 @@ Seems clear to me that the answer is &#39;an empty set&#39;
         <td>2007-06-15</td>
         <td>willt001</td>
         <td>willito02</td>
+    </tr>
+    <tr>
+        <td>willito01</td>
+        <td>1870</td>
+        <td>8</td>
+        <td>19</td>
+        <td>USA</td>
+        <td>OH</td>
+        <td>Minersville</td>
+        <td>1940</td>
+        <td>7</td>
+        <td>27</td>
+        <td>USA</td>
+        <td>OH</td>
+        <td>Columbus</td>
+        <td>Tom</td>
+        <td>Williams</td>
+        <td>Thomas C.</td>
+        <td></td>
+        <td>None</td>
+        <td></td>
+        <td>None</td>
+        <td>1892-05-01</td>
+        <td>1893-09-14</td>
+        <td>willt101</td>
+        <td>willito01</td>
     </tr>
     <tr>
         <td>willitr01</td>
@@ -14887,32 +14944,6 @@ Seems clear to me that the answer is &#39;an empty set&#39;
         <td>willitr01</td>
     </tr>
     <tr>
-        <td>williwa01</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>USA</td>
-        <td>PA</td>
-        <td>Philadelphia</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>Wash</td>
-        <td>Williams</td>
-        <td>Washington J.</td>
-        <td>180</td>
-        <td>71</td>
-        <td></td>
-        <td></td>
-        <td>1884-08-05</td>
-        <td>1885-06-08</td>
-        <td>willw102</td>
-        <td>williwa01</td>
-    </tr>
-    <tr>
         <td>williwa02</td>
         <td>1943</td>
         <td>12</td>
@@ -14937,6 +14968,32 @@ Seems clear to me that the answer is &#39;an empty set&#39;
         <td>1975-09-22</td>
         <td>willw103</td>
         <td>williwa02</td>
+    </tr>
+    <tr>
+        <td>williwa01</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>USA</td>
+        <td>PA</td>
+        <td>Philadelphia</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>Wash</td>
+        <td>Williams</td>
+        <td>Washington J.</td>
+        <td>180</td>
+        <td>71</td>
+        <td></td>
+        <td>None</td>
+        <td>1884-08-05</td>
+        <td>1885-06-08</td>
+        <td>willw102</td>
+        <td>williwa01</td>
     </tr>
     <tr>
         <td>williwo01</td>
@@ -24016,6 +24073,138 @@ Result =
 <ul>
 <li>My going through the details will be boring. You can just look up answers, practice and we will learn by doing in various homeworks and questions.</li>
 </ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="A-Note-on-Connections">A Note on Connections<a class="anchor-link" href="#A-Note-on-Connections">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li><p>You may have noticed to segments of code in my examples:</p>
+<p><code>%sql mysql+pymysql://dbuser:dbuser@localhost/lahman2017</code></p>
+</li>
+</ul>
+<ul>
+<li>or</li>
+</ul>
+
+<pre><code>    # Connect to the database over the network. Use the connection
+    # to send commands to the DB.
+    cnx = pymysql.connect(host='localhost',
+                             user='dbuser',
+                             password='dbuser',
+                             db='lahman2017',
+                             charset='utf8mb4',
+                             cursorclass=pymysql.cursors.DictCursor)</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<table>
+<thead><tr>
+<th style="text-align:center"><img src="../images/db-connection.jpg" width="900px;" ></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>DB Connections</strong></td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>"In computer science, a database connection is the means by which a database server and its client software communicate with each other. The term is used whether or not the client and the server are on different machines." (<a href="https://en.wikipedia.org/wiki/Database_connection">https://en.wikipedia.org/wiki/Database_connection</a>)</p>
+<ul>
+<li>Database systems and products provide client libraries and <a href="https://en.wikipedia.org/wiki/Software_development_kit">software development kits</a> that simplify using the database APIs. Database SDKs are also called connectors.</li>
+</ul>
+<ul>
+<li><a href="https://github.com/PyMySQL/PyMySQL">PyMySQL</a> is a Python connector/SDK for MySQL.</li>
+</ul>
+
+<pre><code>cnx = pymysql.connect(host='localhost',
+                            port='3306',
+                             user='dbuser',
+                             password='dbuser',
+                             db='lahman2017',
+                             charset='utf8mb4',
+                             cursorclass=pymysql.cursors.DictCursor)</code></pre>
+<p>In this simple example, the connection information is:</p>
+<ul>
+<li>Host (Internet location of the database server) is "the local computer."</li>
+</ul>
+<ul>
+<li>The port <code>https://en.wikipedia.org/wiki/Port_(computer_networking)</code> identifies a specific application's network endpoint on a host.</li>
+</ul>
+<ul>
+<li>User and password to associate with requests on this connection (authentication, authorization)</li>
+</ul>
+<ul>
+<li>There are many other "command and control" properties associated with a connection.</li>
+</ul>
+<ul>
+<li>Most of our work and examples will use <code>localhost.</code> <ul>
+<li>This is common during initial solution development.</li>
+<li>But is not the general model for more advanced tested or deployment.</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>I will provide a "cloud" accessible version of MySQL for you to play with sometime during the semester.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>On your localhost, there are at least two programs executing:<ul>
+<li>MySQL Workbench</li>
+<li>mysqld: The MySQL server.</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<table>
+<thead><tr>
+<th style="text-align:center"><img src="../images/db_processes.jpg"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>DB Processes</strong></td>
+</tr>
+</tbody>
+</table>
 
 </div>
 </div>
