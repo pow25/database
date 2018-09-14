@@ -28,19 +28,29 @@ class CSVTable():
         :return: String
         '''
         
-
     def load(self):
         '''
         Load information from CSV file.
         :return: None
         '''
-        with open(self.table_file, mode = 'r') as csv_file:
-            csv_reader = csv.DictReader(csv_file)
-            for i in csv_reader:
-                self.data.append(i)
+        try:
+            with open(self.table_file, mode = 'r') as csv_file:
+                csv_reader = csv.DictReader(csv_file)
+                for i in csv_reader:
+                    self.data.append(i)
+        except IOError:
+            print ("The datatable file doens't exit")
+        
+        for i in self.key_columns:
+            if not self.data[0].has_key(i):
+                raise ValueError("Keys in primary key_columns doesn't match the database")
 
     def find_by_primary_key(self, string_set, fields=None):
         
+        for i in string_set:
+            if not self.data[0].has_key(i):
+                raise ValueError("primary_keys in string_set doesn't match the database")
+
         if fields == None:
             for i in self.data:
                 count_match = 0
@@ -70,6 +80,12 @@ class CSVTable():
         :param fields: A list of columns to include in responses.
         :return: CSVTable containing the answer.
         '''
+        t_keys = t.keys()
+        for i in t_keys:
+            if not self.data[0].has_key(i):
+                raise ValueError("Keys in templated doesn't match the database format")
+
+
         result = []
         if fields == None:
             keys = t.keys()
@@ -102,11 +118,13 @@ class CSVTable():
         Write updated CSV back to the original file location.
         :return: None
         '''
-        with open(self.table_file, mode='w') as csv_file:
-            writer = csv.writer(csv_file)
-            for i in self.data:
-                writer.write(i)
-
+        try:
+            with open(self.table_file, mode='w') as csv_file:
+                writer = csv.writer(csv_file)
+                for i in self.data:
+                    writer.write(i)
+        except IOError:
+            print( "Can't open the file to write" )
 
     def insert(self, r):
         '''
@@ -114,6 +132,13 @@ class CSVTable():
         :param r: New row.
         :return: None. Table state is updated.
         '''
+        t_keys = r.keys()
+        for i in t_keys:
+            if not self.data[0].has_key(i):
+                raise ValueError("Keys in templated doesn't match the database format")
+
+        # if (  ) insert duplicated primary keys
+
         self.data.append(r)
 
 
@@ -125,8 +150,8 @@ class CSVTable():
         '''
         t_keys = t.keys()
         for i in t_keys:
-            if !self.data[0].has_key(i):
-                
+            if not self.data[0].has_key(i):
+                raise ValueError("Keys in templated doesn't match the database format")
         
         keys = t.keys()
         for i in self.data:
