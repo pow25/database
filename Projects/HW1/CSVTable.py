@@ -22,15 +22,14 @@ class CSVTable():
         self.table_file = rel_path + table_file
         self.key_columns = key_columns
         self.data = []
+    
     def __str__(self):
         '''
         Pretty print the table and state.
         :return: String
         '''
-        keys = self.data[0].get_keys()
-        for i in keys:
-            return(i)
-            return(" ")
+        return json.dumps(self.data, indent=2)
+        
         
         
     def load(self):
@@ -47,13 +46,13 @@ class CSVTable():
             print ("The datatable file doens't exit")
         
         for i in self.key_columns:
-            if not self.data[0].has_key(i):
+            if i not in self.data[0]:
                 raise ValueError("Keys in primary key_columns doesn't match the database")
 
     def find_by_primary_key(self, string_set, fields=None):
         
         for i in string_set:
-            if not self.data[0].has_key(i):
+            if i not in self.data[0]:
                 raise ValueError("primary_keys in string_set doesn't match the database")
 
         if fields == None:
@@ -87,7 +86,7 @@ class CSVTable():
         '''
         t_keys = t.keys()
         for i in t_keys:
-            if not self.data[0].has_key(i):
+            if i not in self.data[0]:
                 raise ValueError("Keys in templated doesn't match the database format")
 
 
@@ -124,10 +123,12 @@ class CSVTable():
         :return: None
         '''
         try:
-            with open(self.table_file, mode='w') as csv_file:
-                writer = csv.writer(csv_file)
+            with open(self.table_file, mode='w', newline = '') as csv_file:
+                fieldnames = self.data[0].keys()
+                writer = csv.DictWriter(csv_file,fieldnames=fieldnames)
+                writer.writeheader()
                 for i in self.data:
-                    writer.write(i)
+                    writer.writerow(i)
         except IOError:
             print( "Can't open the file to write" )
 
@@ -139,7 +140,7 @@ class CSVTable():
         '''
         t_keys = r.keys()
         for i in t_keys:
-            if not self.data[0].has_key(i):
+            if i not in self.data[0]:
                 raise ValueError("Keys in templated doesn't match the database format")
 
         # if (  ) insert duplicated primary keys
@@ -155,7 +156,7 @@ class CSVTable():
         '''
         t_keys = t.keys()
         for i in t_keys:
-            if not self.data[0].has_key(i):
+            if i not in self.data[0]:
                 raise ValueError("Keys in templated doesn't match the database format")
         
         keys = t.keys()
