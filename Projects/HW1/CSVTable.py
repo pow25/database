@@ -27,6 +27,11 @@ class CSVTable():
         Pretty print the table and state.
         :return: String
         '''
+        keys = self.data[0].get_keys()
+        for i in keys:
+            return(i)
+            return(" ")
+        
         
     def load(self):
         '''

@@ -14,9 +14,7 @@ class RDBDataTable():
     
     # Pretty print the CSVTable and its attributes.
     def __str__(self):
-        # Your code goes here.
-        # Optional
-        pass
+        
 
     def find_by_primary_key(self, string_set, fields=None):
         
@@ -28,19 +26,19 @@ class RDBDataTable():
     # Raises an exception if the template or list of fields contains
     # a column/attribute name not in the file.
     def find_by_template(self, t, fields=None):
-        # Your code goes here
+        
         
 
     
     # Inserts the row into the table. 
     # Raises on duplicate key or invalid columns.
     def insert(self, r):
-        # Your code goes here
+        
         
 
        
     # t: A template.
     # Deletes all rows matching the template.
     def delete(self, t):
-        # Your code goes here.
         
+    
