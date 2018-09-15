@@ -46,7 +46,16 @@ class RDBDataTable():
         self.cursor = cnx.cursor()
         self.table_name = table_name
         self.key_columns = key_columns
+        self.columns = []
+        
+        q = "SHOW columns FROM " + table_name + ";"
+        r = self.cursor.execute(q)
+        for i in r:
+            self.columns.append(i['Fields'])
 
+        for i in key_columns:
+            if i not in self.columns:
+                raise ValueError("The key_columns dones't math the database columns type")
 
     def find_by_primary_key(self, string_set, fields=None):
         if len(string_set) != len(self.key_columns):
@@ -70,7 +79,7 @@ class RDBDataTable():
 
             q = "SELECT " + fields_string + " FROM " + self.table_name + " " + w + ";"
         
-        print ("Query = ", q)
+        # print ("Query = ", q)
         self.cursor.execute(q)
         r = self.cursor.fetchall()
         return r
@@ -82,6 +91,12 @@ class RDBDataTable():
     # Raises an exception if the template or list of fields contains
     # a column/attribute name not in the file.
     def find_by_template(self, t, fields=None):
+
+        t_keys = t.keys()
+        for i in t_keys:
+            if i not in self.columns:
+                raise ValueError("Keys in templated doesn't match the database format")
+
         w = templateToWhereClause(t)
 
         if fields == None:
@@ -94,7 +109,7 @@ class RDBDataTable():
 
             q = "SELECT " + fields_string + " FROM " + self.table_name + " " + w + ";"
 
-        print ("Query = ", q)
+        # print ("Query = ", q)
         self.cursor.execute(q)
         r = self.cursor.fetchall()
         return r
@@ -103,16 +118,37 @@ class RDBDataTable():
     # Inserts the row into the table. 
     # Raises on duplicate key or invalid columns.
     def insert(self, t):
+        t_keys = t.keys()
+        for i in t_keys:
+            if i not in self.columns:
+                raise ValueError("Keys in templated doesn't match the database format")
+        
+        primary_key_string_set = []
+        for i in self.key_columns:
+            primary_key_string_set.append(t[i])
+        
+        result = self.find_by_primary_key(primary_key_string_set)
+        
+
+        if len(result) != 0:
+             raise ValueError("Duplicated Primary key found, Not insert!")
+
         w = templateToInsertClause(t)
         q = "INSERT INTO " + self.table_name + " " + w + ";"
-        print ("Query = ", q)
+        # print ("Query = ", q)
         self.cursor.execute(q)
 
        
     # t: A template.
     # Deletes all rows matching the template.
     def delete(self, t):
+
+        t_keys = t.keys()
+        for i in t_keys:
+            if i not in self.columns:
+                raise ValueError("Keys in templated doesn't match the database format")
+
         w = templateToWhereClause(t)
         q = "DELETE FROM " + self.table_name + " " + w + ";"
-        print ("Query = ", q)
+        # print ("Query = ", q)
         self.cursor.execute(q)

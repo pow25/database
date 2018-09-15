@@ -141,8 +141,16 @@ class CSVTable():
         for i in t_keys:
             if i not in self.data[0]:
                 raise ValueError("Keys in templated doesn't match the database format")
+        
+        primary_key_string_set = []
 
-        # if (  ) insert duplicated primary keys
+        for i in self.key_columns:
+            primary_key_string_set.append(r[i])
+
+        result = self.find_by_primary_key(primary_key_string_set)
+
+        if result != None:
+            raise ValueError("Duplicated Primary key found, Not insert!")
 
         self.data.append(r)
 
