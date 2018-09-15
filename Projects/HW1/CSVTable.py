@@ -47,13 +47,12 @@ class CSVTable():
         
         for i in self.key_columns:
             if i not in self.data[0]:
-                raise ValueError("Keys in primary key_columns doesn't match the database")
+                raise ValueError("The primary keys are invalid")
 
     def find_by_primary_key(self, string_set, fields=None):
         
-        for i in string_set:
-            if i not in self.data[0]:
-                raise ValueError("primary_keys in string_set doesn't match the database")
+        if len(string_set) != len(self.key_columns):
+            raise ValueError("The primary keys inputed didn't match the key columns")
 
         if fields == None:
             for i in self.data:
