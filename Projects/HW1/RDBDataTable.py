@@ -14,7 +14,8 @@ class RDBDataTable():
     
     # Pretty print the CSVTable and its attributes.
     def __str__(self):
-        
+        pass
+                
 
     def find_by_primary_key(self, string_set, fields=None):
         
@@ -26,9 +27,37 @@ class RDBDataTable():
     # Raises an exception if the template or list of fields contains
     # a column/attribute name not in the file.
     def find_by_template(self, t, fields=None):
-        
-        
+        w = templateToWhereClause(t)
 
+        if limit is None:
+            limit = 10
+        elif limit > 10:
+            limit = 10
+
+        if offset is None:
+            offset = 0
+
+        w += " LIMIT " + str(limit) + " OFFSET " + str(offset)
+
+        cursor=cnx.cursor()
+        q = "SELECT " + fields + " FROM " + table + " " + w + ";"
+
+        print ("Query = ", q)
+        cursor.execute(q)
+        r = cursor.fetchall()
+        return r
+        
+    def templateToWhereClause(t):
+        s = ""
+        for k,v in t.items():
+            if s != "":
+                s += " AND "
+            s += k + "='" + v[0] + "'"
+
+        if s != "":
+            s = "WHERE " + s;
+
+        return s
     
     # Inserts the row into the table. 
     # Raises on duplicate key or invalid columns.
