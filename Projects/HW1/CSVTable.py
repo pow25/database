@@ -30,8 +30,6 @@ class CSVTable():
         '''
         return json.dumps(self.data, indent=2)
         
-        
-        
     def load(self):
         '''
         Load information from CSV file.
@@ -50,31 +48,36 @@ class CSVTable():
                 raise ValueError("The primary keys are invalid")
 
     def find_by_primary_key(self, string_set, fields=None):
-        
+
         if len(string_set) != len(self.key_columns):
             raise ValueError("The primary keys inputed didn't match the key columns")
-
+        result = []
         if fields == None:
             for i in self.data:
                 count_match = 0
-                for j in range(string_set):
+                for j in range(0,len(string_set)):
                     if i[self.key_columns[j]] == string_set[j]:
                         count_match += 1
                 if count_match == len(self.key_columns):
-                    return i
+                    result.append(i)
         else:
+            for j in fields:
+                if j not in self.data[0].keys():
+                    raise ValueError("The fields don't match the database column types")
+            
             unwanted = self.data[0].keys() - fields
             for i in self.data:
                 count_match = 0
-                for j in range(string_set):
+                for j in range(0,len(string_set)):
                     if i[self.key_columns[j]] == string_set[j]:
                         count_match += 1
                 if count_match == len(self.key_columns):
                     for unwanted_key in unwanted:
-                        del i[unwanted_key]
-                    return i
+                        temp = i.copy()
+                        del temp[unwanted_key]
+                    result.append(temp)
 
-        return None        
+        return result              
 
     def find_by_template(self, t, fields=None):
         '''
@@ -88,7 +91,6 @@ class CSVTable():
             if i not in self.data[0]:
                 raise ValueError("Keys in templated doesn't match the database format")
 
-
         result = []
         if fields == None:
             keys = t.keys()
@@ -101,6 +103,11 @@ class CSVTable():
                 if count_match == len(keys):
                     result.append(i)
         else:
+            
+            for j in fields:
+                if j not in self.data[0].keys():
+                    raise ValueError("The fields don't match the database column types")
+            
             keys = t.keys()
             unwanted = self.data[0].keys() - fields
             for i in self.data:
@@ -111,8 +118,18 @@ class CSVTable():
                 
                 if count_match == len(keys):
                     for unwanted_key in unwanted:
-                        del i[unwanted_key]
-                    result.append(i)
+                        temp = i.copy()
+                        del temp[unwanted_key]
+                    result.append(temp)
+        
+        return result
+
+    def find_by_template_top(self):
+        result = set()
+
+        for i in self.data:
+            if int(i["yearID"]) >= 1960 and int(i["AB"]) >= 200:
+                result.add(i['playerID'])
         
         return result
 

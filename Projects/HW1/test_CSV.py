@@ -1,5 +1,4 @@
-
-import CSVTable
+from CSVTable import CSVTable
 import json
 import sys, os
 
@@ -34,6 +33,18 @@ def test_template(test_name, table_name, table_file, key_columns, template, fiel
     except ValueError as ve:
         print("Exception = ", ve)
 
+def test_delete( test_name, table_name, table_file, key_columns, template ):
+    print("\n\n*******************************")
+    print("Test name = ", test_name)
+    print("Template to delete = ", template)
+
+    try:
+        csvt = CSVTable(table_name, table_file, key_columns)
+        csvt.load()
+        csvt.delete(template)
+        csvt.save()
+    except ValueError as ve:
+        print("Exception = ", ve)
 
 def test_insert(test_name, table_name, table_file, key_columns, row, show_rows=False):
     print("\n\n*******************************")
@@ -62,6 +73,20 @@ def test_insert(test_name, table_name, table_file, key_columns, row, show_rows=F
     except ValueError as ve:
         print("Exception = ", ve)
 
+def test_primary_key(test_name, table_name, table_file, key_columns,string_set,fields=None):
+    print("\n\n*******************************")
+    print("Test name = ", test_name)
+    print("Primary key = ", string_set)
+    try:
+        csvt = CSVTable(table_name, table_file, key_columns)
+        csvt.load()
+        r = csvt.find_by_primary_key(string_set,fields)
+        print("Result table:")
+        print(json.dumps(r, indent=2))
+
+    except ValueError as ve:
+        print("Exception = ", ve)
+        
 
 def test_templates():
     test_template("Test2", "People", "People.csv", ["playerID"],
@@ -123,3 +148,21 @@ def test_inserts():
                   {"playerID": "dff1"}, None,
                   False)
 
+
+def test_deletes():
+    test_delete("Delete Test 1", "People", "PeopleSmall.csv", ["playerID"],
+                {"playerID": "dff1", "nameLast": "Ferguson", "nameFirst": "Donald"})
+    try:
+        test_delete("Delete Test 1", "People", "PeopleSmall.csv", ["playerID"],
+                {"playerID": "dff2", "nameLast": "Ferguson", "nameFirst": "Donald"})
+        raise ValueError("That insert should not have worked!")
+    
+    except ValueError as ve:
+        print("OK. Did not delete the data which in not in the CSV FILE.")
+
+def test_find_by_primary_key():
+    test_primary_key("Primary Key Test1", "People", "PeopleSmall.csv", ["playerID"],
+                      ["dff_chi"])
+    
+    test_primary_key("Primary Key Test2", "People", "PeopleSmall.csv", ["playerID"],
+                      ["abbotji01"])

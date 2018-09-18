@@ -30,28 +30,29 @@ def templateToWhereClause(t):
         s += k + "='" + v + "'"
 
     if s != "":
-        s = "WHERE " + s;
+        s = "WHERE " + s
 
     return s
 
 class RDBDataTable():
     def __init__(self, host, user, password, db_name, table_name, key_columns ):
         # Your code goes here
-        cnx = pymysql.connect(host= host,
+        self.cnx = pymysql.connect(host= host,
                               user= user,
                               password= password,
                               db=db_name,
                               charset='utf8mb4',
                               cursorclass=pymysql.cursors.DictCursor)
-        self.cursor = cnx.cursor()
+        self.cursor = self.cnx.cursor()
         self.table_name = table_name
         self.key_columns = key_columns
         self.columns = []
         
         q = "SHOW columns FROM " + table_name + ";"
-        r = self.cursor.execute(q)
+        self.cursor.execute(q)
+        r = self.cursor.fetchall()
         for i in r:
-            self.columns.append(i['Fields'])
+            self.columns.append(i["Field"])
 
         for i in key_columns:
             if i not in self.columns:
@@ -72,6 +73,10 @@ class RDBDataTable():
         if fields == None:
             q = "SELECT * FROM " + self.table_name + " " + w + ";"
         else:
+            for j in fields:
+                if j not in self.columns:
+                    raise ValueError("The fields don't match the database column types")
+            
             fields_string = ""
             for i in fields:
                 fields_string += i + ","
@@ -95,13 +100,19 @@ class RDBDataTable():
         t_keys = t.keys()
         for i in t_keys:
             if i not in self.columns:
-                raise ValueError("Keys in templated doesn't match the database format")
+                raise ValueError("Keys in templated doesn't match the database column types")
 
+        
+        
         w = templateToWhereClause(t)
 
         if fields == None:
             q = "SELECT * FROM " + self.table_name + " " + w + ";"
         else:
+            for j in fields:
+                if j not in self.columns:
+                    raise ValueError("The fields don't match the database column types")
+            
             fields_string = ""
             for i in fields:
                 fields_string += i + ","
@@ -135,9 +146,9 @@ class RDBDataTable():
 
         w = templateToInsertClause(t)
         q = "INSERT INTO " + self.table_name + " " + w + ";"
-        # print ("Query = ", q)
+#         print ("Query = ", q)
         self.cursor.execute(q)
-
+        self.cnx.commit()
        
     # t: A template.
     # Deletes all rows matching the template.
@@ -152,3 +163,4 @@ class RDBDataTable():
         q = "DELETE FROM " + self.table_name + " " + w + ";"
         # print ("Query = ", q)
         self.cursor.execute(q)
+
