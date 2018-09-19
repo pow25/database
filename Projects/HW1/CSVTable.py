@@ -72,8 +72,8 @@ class CSVTable():
                     if i[self.key_columns[j]] == string_set[j]:
                         count_match += 1
                 if count_match == len(self.key_columns):
+                    temp = i.copy()
                     for unwanted_key in unwanted:
-                        temp = i.copy()
                         del temp[unwanted_key]
                     result.append(temp)
 
@@ -117,8 +117,8 @@ class CSVTable():
                         count_match += 1
                 
                 if count_match == len(keys):
+                    temp = i.copy()
                     for unwanted_key in unwanted:
-                        temp = i.copy()
                         del temp[unwanted_key]
                     result.append(temp)
         

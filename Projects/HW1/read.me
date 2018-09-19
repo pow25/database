@@ -1,4 +1,22 @@
-Hola! this is the read me file for this project
+In both CSVTable.py and RDBtable.py, I implemented all the required functions of class templated.
+But there is no need for load(),save() for RDBtable, since all the changes will be commited to database
 
+And in CSVTable.py, there is an additional help function, find_by_template_top, which is used 
+for calculating the top 10 best hitters.
 
+There are some constrictions for all the functions: 
+1, for the load() functions in CSVTable and _init_() in RDBtable, the program will check whether
+the key columns are valid or not and whether the file exists(CSVTable) or connection is established(RDBtable) 
+2, for the find_by_template/find_by_primary functions in both files, the program will check whether
+the key entered(template) and the fields entered are complying with the database format
+3, for the insert function, besides the chekcing of valid template key, I also checked whether inserting
+will cause duplicated primary key problem
+4, for the delete function, the program will also check whether the key entered(template) are valid or not
+5, for the save() functions in CSVTable, it will check whether the file can be written or not
 
+I used Jupyter notebook to run the test cases, the test functions are defined in the first part of 2 test.py,
+and in order to run the test cases, just call the functions for both two file:
+1, test_templates()
+2, test_inserts()
+3, test_deletes()
+4, test_find_by_primary_key()

@@ -8,7 +8,7 @@ cnx = pymysql.connect(host= "localhost",
                       charset='utf8mb4',
                       cursorclass=pymysql.cursors.DictCursor)
 cursor = cnx.cursor()
-q = "ELECT \
+q = "SELECT \
 Batting.playerID, \
 (SELECT People.nameFirst FROM People WHERE People.playerID=Batting.playerID) as first_name, \
 (SELECT People.nameLast FROM People WHERE People.playerID=Batting.playerID) as last_name, \

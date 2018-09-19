@@ -37,26 +37,29 @@ def templateToWhereClause(t):
 class RDBDataTable():
     def __init__(self, host, user, password, db_name, table_name, key_columns ):
         # Your code goes here
-        self.cnx = pymysql.connect(host= host,
+        try:
+            self.cnx = pymysql.connect(host= host,
                               user= user,
                               password= password,
                               db=db_name,
                               charset='utf8mb4',
                               cursorclass=pymysql.cursors.DictCursor)
-        self.cursor = self.cnx.cursor()
-        self.table_name = table_name
-        self.key_columns = key_columns
-        self.columns = []
-        
-        q = "SHOW columns FROM " + table_name + ";"
-        self.cursor.execute(q)
-        r = self.cursor.fetchall()
-        for i in r:
-            self.columns.append(i["Field"])
+            self.cursor = self.cnx.cursor()
+            self.table_name = table_name
+            self.key_columns = key_columns
+            self.columns = []
+            
+            q = "SHOW columns FROM " + table_name + ";"
+            self.cursor.execute(q)
+            r = self.cursor.fetchall()
+            for i in r:
+                self.columns.append(i["Field"])
 
-        for i in key_columns:
-            if i not in self.columns:
-                raise ValueError("The key_columns dones't math the database columns type")
+            for i in key_columns:
+                if i not in self.columns:
+                    raise ValueError("The key_columns dones't math the database columns type")
+        except:
+            print( "Can't connect to the database" )
 
     def find_by_primary_key(self, string_set, fields=None):
         if len(string_set) != len(self.key_columns):

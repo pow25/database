@@ -155,7 +155,7 @@ def test_deletes():
     try:
         test_delete("Delete Test 1", "People", "PeopleSmall.csv", ["playerID"],
                 {"playerID": "dff2", "nameLast": "Ferguson", "nameFirst": "Donald"})
-        raise ValueError("That insert should not have worked!")
+        raise ValueError("That delete should not have worked!")
     
     except ValueError as ve:
         print("OK. Did not delete the data which in not in the CSV FILE.")
