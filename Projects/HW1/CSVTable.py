@@ -27,6 +27,7 @@ class CSVTable():
         '''
         Pretty print the table and state.
         :return: String
+        pd.DataFrame.from_dict()
         '''
         return json.dumps(self.data, indent=2)
         
