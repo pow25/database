@@ -160,6 +160,10 @@ class CSVTable():
             if i not in self.data[0]:
                 raise ValueError("Keys in templated doesn't match the database format")
         
+        for i in self.key_columns:
+            if i not in t_keys:
+                raise ValueError("The templates contain no primary key")
+
         primary_key_string_set = []
 
         for i in self.key_columns:
