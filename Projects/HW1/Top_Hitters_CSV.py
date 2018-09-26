@@ -24,8 +24,10 @@ for i in player_set:
     
     for j in r:
         total_ab += int(j["AB"])
-        total_h += int(j["H"]) 
-    player_dict[i] = float(total_h)/total_ab
+        total_h += int(j["H"])
+
+    if total_ab > 200:
+        player_dict[i] = float(total_h)/total_ab
 
 player_dict_sorted = sorted(player_dict.items(),key = lambda x:x[1],reverse = True)
 

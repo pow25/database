@@ -129,7 +129,7 @@ class CSVTable():
         result = set()
 
         for i in self.data:
-            if int(i["yearID"]) >= 1960 and int(i["AB"]) >= 200:
+            if int(i["yearID"]) >= 1960:
                 result.add(i['playerID'])
         
         return result
