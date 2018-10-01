@@ -11,6 +11,7 @@ import json
 # client must log on.
 
 
+
 # Connect to the database over the network. Use the connection
 # to send commands to the DB.
 cnx = pymysql.connect(host='localhost',
@@ -19,6 +20,7 @@ cnx = pymysql.connect(host='localhost',
                              db='lahman2017',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
+
 
 
 # Input is a player ID. Return the database record.
@@ -47,47 +49,6 @@ def templateToWhereClause(t):
     return s
 
 
-# Given a table, template and list of fields. Return the result.
-def retrieve_by_template(table, t, fields, limit=None, offset=None):
-    w = templateToWhereClause(t)
-
-    if limit is None:
-        limit = 10
-    elif limit > 10:
-        limit = 10
-
-    if offset is None:
-        offset = 0
-
-    w += " LIMIT " + str(limit) + " OFFSET " + str(offset)
-
-    cursor=cnx.cursor()
-    q = "SELECT " + fields + " FROM " + table + " " + w + ";"
-
-    print ("Query = ", q)
-    cursor.execute(q)
-    r = cursor.fetchall()
-    return r
-
-
-# Get a subset of the player's batting information.
-def retrieve_batting(player_id):
-    p = retrieve(player_id)
-    t = { "playerID": [player_id]}
-    fields = "teamID,yearID,stint,lgID,H,AB,HR,RBI"
-    b = retrieve_by_template("Batting", t, fields)
-    result = { "player_info": p, "batting": b}
-    return result
-
-
-# Get metadata to help populate search and data entry forms.
-def retrieve_metadata(table):
-    cursor = cnx.cursor()
-    q = "SHOW FIELDS FROM " + table + ";"
-    print("Query = ", q)
-    cursor.execute(q)
-    r = cursor.fetchall()
-    return r
 
 
 
