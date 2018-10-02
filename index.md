@@ -64,6 +64,6 @@ The HTML for the various lectures are:
 - [Lecture 3: Relational Databases and Web Applications](./Notebooks/w4111-L3-f2018-RelationalAndWebV1.html)
 - [Lecture 4: SQL Details](./Notebooks/w4111-L4-f2018-SQL-Details.html)
 - [Lecture 5: More Relational](./Notebooks/w4111-L5-f2018-More-Relational.html)
-- [Lecture 6: Web Advanced Relational](./Notebooks/w4111-L5-f2018-Web-Advanced-Relational.html)
+- [Lecture 6: Web Advanced Relational](./Notebooks/w4111-L6-f2018-Web-Advanced-Relational.html)
 
 More to come
