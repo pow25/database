@@ -21,6 +21,21 @@ def hello_world():
     print(request.query_string)
     return 'Hello World! Maybe you should ask questions about People or Batting?'
 
+# Retrieve metadata about people.
+@app.route('/people/metadata')
+def people_fields():
+    result = people.retrieve_metadata("people")
+    result = json.dumps(result)
+    return result, 200, {'Content-Type': 'application/json; charset=utf-8'}
+
+# Get metadata to help populate search and data entry forms.
+def retrieve_metadata(table):
+    cursor = cnx.cursor()
+    q = "SHOW FIELDS FROM " + table + ";"
+    print("Query = ", q)
+    cursor.execute(q)
+    r = cursor.fetchall()
+    return r
 
 # Add a function to handle a URL of the form /people/id, e.g. /people/willite01
 # The functions parameter playerid will be set to the <playerid> part of the URL.
