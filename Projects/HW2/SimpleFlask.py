@@ -18,11 +18,11 @@ def parse_and_print_args():
 
     fields = None
     in_args = None
-    if request.args is not None:
+    if request.args is not None: #there may include offset, limit, fields(fields handling below)
         in_args = dict(copy.copy(request.args))
-        fields = copy.copy(in_args.get('fields', None))
+        fields = copy.copy(in_args.get('fields', None)) #we get fields
         if fields:
-            del(in_args['fields'])
+            del(in_args['fields']) #then we delete it from the original args, becasue we don't need that anymore
 
     try:
         if request.data:
@@ -33,8 +33,6 @@ def parse_and_print_args():
         print("Got exception = ", e)
         body = None
 
-
-
     print("Request.args : ", json.dumps(in_args))
     return in_args, fields, body
 
@@ -43,6 +41,12 @@ def parse_and_print_args():
 def get_resource(resource):
 
     in_args, fields, body = parse_and_print_args()
+
+    print("in_args:",in_args)
+    print("fields:",fields)
+    print("body:",body)
+
+
     if request.method == 'GET':
         result = SimpleBO.find_by_template(resource, \
                                            in_args, fields)
