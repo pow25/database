@@ -107,6 +107,10 @@ def insert(table, t):
     except Exception as e:
         raise e
 
+def update(table, t):
+    if t == None or table == None:
+        raise ValueError("The table or input template is empty")
+    
 
 def delete(table, t):
 

@@ -43,24 +43,56 @@ def parse_and_print_args():
     print("Request.args : ", json.dumps(in_args))
     return in_args, fields, body, limit, offset
 
-@app.route('/api/<roster>', methods=['GET'])
-def roaster(roster):
+# @app.route('/api/<roster>', methods=['GET'])
+# def roaster(roster):
+#     in_args, fields, body, limit, offset = parse_and_print_args()
+#     # if request.method == 'GET':
+
+@app.route('/api/<resource>/<primary_key>', methods=['GET', 'PUT', 'DELETE'])
+def get_resource_primary_key(resource,primary_key):
     in_args, fields, body, limit, offset = parse_and_print_args()
-    # if request.method == 'GET':
-
-
-
-@app.route('/api/<resource>', methods=['GET', 'POST'])
-def get_resource(resource):
-
-    in_args, fields, body, limit, offset = parse_and_print_args()
-
     if request.method == 'GET':
         try:
             result = SimpleBO.find_by_template(resource, \
                                            in_args, limit, offset,fields)
         except Exception as e:
-            return "Got Exception:" + e +" ", 501, {"content-type": "text/plain; charset: utf-8"}
+            return "Got Exception:" + str(e) +" ", 501, {"content-type": "text/plain; charset: utf-8"}
+        
+        return json.dumps(result), 200, \
+               {"content-type": "application/json; charset: utf-8"}
+    
+    elif request.method == 'PUT':
+        try:
+            SimpleBO.update(resource,body)
+        except Exception as e:
+            return "Got Exception:" + str(e) +" ", 501, {"content-type": "text/plain; charset: utf-8"}
+        
+        return "Insert Finished", 200, {"content-type": "text/plain; charset: utf-8"}
+    
+    elif request.method == 'DELETE':
+        try:
+            SimpleBO.delete(resource,body)
+        except Exception as e:
+            return "Got Exception:" + str(e) +" ", 501, {"content-type": "text/plain; charset: utf-8"}
+    
+    else:
+        return "Method " + request.method + " on resource " + resource + \
+               " not implemented!", 501, {"content-type": "text/plain; charset: utf-8"}
+
+
+@app.route('/api/<resource>', methods=['GET', 'POST'])
+def get_resource(resource):
+    # print("Calling resource")
+    in_args, fields, body, limit, offset = parse_and_print_args()
+    # print("in_args:",in_args)
+    # print("fields:",fields)
+    # print("body:",body)
+    if request.method == 'GET':
+        try:
+            result = SimpleBO.find_by_template(resource, \
+                                           in_args, limit, offset,fields)
+        except Exception as e:
+            return "Got Exception:" + str(e) +" ", 501, {"content-type": "text/plain; charset: utf-8"}
         
         return json.dumps(result), 200, \
                {"content-type": "application/json; charset: utf-8"}
@@ -69,7 +101,7 @@ def get_resource(resource):
         try:
             SimpleBO.insert(resource,body)
         except Exception as e:
-            return "Got Exception:" + e +" ", 501, {"content-type": "text/plain; charset: utf-8"}
+            return "Got Exception:" + str(e) +" ", 501, {"content-type": "text/plain; charset: utf-8"}
         
         return "Insert Finished", 200, {"content-type": "text/plain; charset: utf-8"}
     else:
