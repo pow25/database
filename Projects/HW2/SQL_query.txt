@@ -1,0 +1,9 @@
+SELECT playerID, yearID, teamID, stint, count(*) as count_of_rows from batting group by playerID, yearID, teamID, stint order by count_of_rows desc limit 10;
+ALTER TABLE `lahman2017raw`.`batting`  MODIFY column `playerID` VARCHAR(64) NOT NULL;
+ALTER TABLE `lahman2017raw`.`batting`  MODIFY column `yearID` VARCHAR(64) NOT NULL;
+ALTER TABLE `lahman2017raw`.`batting`  MODIFY column `teamID` VARCHAR(64) NOT NULL;
+ALTER TABLE `lahman2017raw`.`batting`  MODIFY column `stint` VARCHAR(64) NOT NULL;
+ALTER TABLE lahman2017raw.batting ADD CONSTRAINT pk_batting PRIMARY KEY (playerID,yearID,teamID,stint);
+ALTER TABLE `lahman2017raw`.`people`  MODIFY column `playerID` VARCHAR(64) NOT NULL;
+ALTER TABLE lahman2017raw.people ADD PRIMARY KEY (playerID);
+ALTER TABLE lahman2017raw.batting ADD FOREIGN KEY (playerID) REFERENCES lahman2017raw.people(playerID);

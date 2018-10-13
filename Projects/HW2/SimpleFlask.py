@@ -18,12 +18,19 @@ def parse_and_print_args():
 
     fields = None
     in_args = None
+    limit = None
+    offset = None
     if request.args is not None: #there may include offset, limit, fields(fields handling below)
         in_args = dict(copy.copy(request.args))
         fields = copy.copy(in_args.get('fields', None)) #we get fields
+        limit = copy.copy(in_args.get('limit', None))
+        offset = copy.copy(in_args.get('offset', None))
         if fields:
             del(in_args['fields']) #then we delete it from the original args, becasue we don't need that anymore
-
+        if limit:
+            del(in_args['limit'])
+        if offset:
+            del(in_args['offset'])
     try:
         if request.data:
             body = json.loads(request.data)
@@ -34,34 +41,42 @@ def parse_and_print_args():
         body = None
 
     print("Request.args : ", json.dumps(in_args))
-    return in_args, fields, body
+    return in_args, fields, body, limit, offset
+
+@app.route('/api/<roster>', methods=['GET'])
+def roaster(roster):
+    in_args, fields, body, limit, offset = parse_and_print_args()
+    # if request.method == 'GET':
+
 
 
 @app.route('/api/<resource>', methods=['GET', 'POST'])
 def get_resource(resource):
 
-    in_args, fields, body = parse_and_print_args()
-
-    print("in_args:",in_args)
-    print("fields:",fields)
-    print("body:",body)
-
+    in_args, fields, body, limit, offset = parse_and_print_args()
 
     if request.method == 'GET':
-        result = SimpleBO.find_by_template(resource, \
-                                           in_args, fields)
+        try:
+            result = SimpleBO.find_by_template(resource, \
+                                           in_args, limit, offset,fields)
+        except Exception as e:
+            return "Got Exception:" + e +" ", 501, {"content-type": "text/plain; charset: utf-8"}
+        
         return json.dumps(result), 200, \
                {"content-type": "application/json; charset: utf-8"}
+    
     elif request.method == 'POST':
-        print("This would be a really good place to call insert()")
-        print("on table ", resource)
-        print("with row ", body)
-        print("But there has to be some HW not written in class.")
-        return "Method " + request.method + " on resource " + resource + \
-            " not implemented!", 501, {"content-type": "text/plain; charset: utf-8"}
+        try:
+            SimpleBO.insert(resource,body)
+        except Exception as e:
+            return "Got Exception:" + e +" ", 501, {"content-type": "text/plain; charset: utf-8"}
+        
+        return "Insert Finished", 200, {"content-type": "text/plain; charset: utf-8"}
     else:
         return "Method " + request.method + " on resource " + resource + \
                " not implemented!", 501, {"content-type": "text/plain; charset: utf-8"}
+
+
 
 
 if __name__ == '__main__':

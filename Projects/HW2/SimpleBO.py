@@ -8,10 +8,13 @@ cnx = pymysql.connect(host='localhost',
                               charset='utf8mb4',
                               cursorclass=pymysql.cursors.DictCursor)
 
-
 def run_q(q, args, fetch=False):
     cursor = cnx.cursor()
-    cursor.execute(q, args)
+    try:
+        cursor.execute(q, args)
+    except Exception as e:
+        raise e
+    
     if fetch:
         result = cursor.fetchall()
     else:
@@ -21,7 +24,6 @@ def run_q(q, args, fetch=False):
 
 def template_to_where_clause(t):
     s = ""
-
     if t is None:
         return s
 
@@ -36,7 +38,6 @@ def template_to_where_clause(t):
     return s
 
 def templateToInsertClause(t):
-    
     if t is None:
         return ""
     
@@ -60,38 +61,62 @@ def templateToInsertClause(t):
 
     return s
 
+
 def find_by_template(table, t, limit=None, offset=None, fields=None): 
-    #we need to consider Limit and offset, add those 2
-        
+    if t == None or table == None:
+        raise ValueError("The table or input template is empty")
+    
     w = template_to_where_clause(t)
 
     if fields == None:
-        q = "SELECT * FROM " + table + " " + w + ";"
+        q = "SELECT * FROM " + table + " " + w
     else:        
         fields_string = ""
         for i in fields:
             fields_string += i + ","
         fields_string = fields_string[:-1]
 
-        q = "SELECT " + fields_string + " FROM " + table + " " + w + ";"
+        q = "SELECT " + fields_string + " FROM " + table + " " + w 
 
-    result = run_q(q, None, True)
+    if limit == None and offset == None:
+        q += ";"
+    elif limit != None and offset == None:
+        q += "LIMIT " + str(limit) + ";"
+    elif limit == None and offset != None:
+        q += "LIMIT " + str(10) + "OFFSET " + str(offset) + ";"
+    else:
+        q += "LIMIT " + str(limit) + "OFFSET " + str(offset) + ";"
+    
+    try:
+        result = run_q(q, None, True)
+    except Exception as e:
+        raise e
+    
     return result
 
-def insert(table,t):
+
+def insert(table, t):
+
+    if t == None or table == None:
+        raise ValueError("The table or input template is empty")
+
     w = templateToInsertClause(t)
     q = "INSERT INTO " + table + " " + w + ";"
-    cursor = cnx.cursor()
-    cursor.execute(q)
-    cnx.commit()
+    try:
+        run_q(q, None)
+    except Exception as e:
+        raise e
 
 
 def delete(table, t):
 
+    if t == None or table == None:
+        raise ValueError("The table or input template is empty")
+
     w = template_to_where_clause(t)
     q = "DELETE FROM " + table + " " + w + ";"
-    run_q(q, None)
     
-
-
-
+    try:
+        run_q(q, None)
+    except Exception as e:
+        raise e
