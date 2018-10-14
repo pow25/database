@@ -42,29 +42,90 @@ def parse_and_print_args():
     print("Request.args : ", json.dumps(in_args))
     return in_args, fields, body, limit, offset
 
+def parse_url(url):
+ 
+    a = url.find("offset", 0)
+    b = url.find("&", a)
+    if b != -1:
+        temp = url[:a] + url[b+1:]
+    else:
+        temp = url[:a-1]
+
+    a = temp.find("limit",0)
+    b = temp.find("&", a)
+    if b != -1:
+        result = temp[:a] + temp[b+1:]
+    else:
+        result = temp[:a-1]
+    
+    return result
+
+
 @app.route('/api/roster', methods=['GET'])
 def roster():
     in_args, fields, body, limit, offset = parse_and_print_args()
+    url = request.url
+    url_res = []
+    url_res.append({"current":url })
+    if offset != None and limit != None:
+        url = parse_url(url)
+        offset = (int)(offset[0])
+        limit = (int)(limit[0])
+        if limit > 10:
+            limit = 10
+    else:
+        limit = 10
+        offset = 0
+    
     if request.method == 'GET':
         try:
             result = SimpleBO.roster(in_args)
         except Exception as e:
             return "Got Exception:" + str(e) +" ", 501, {"content-type": "text/plain; charset: utf-8"}    
+    
+
+        if len(result) > limit:
+            result = result[offset:limit+offset]
+            offset += limit
+            url_res.append({"next":url + "&offset=" + str(offset) + "&limit=" + str(limit) })
         
+        result.append(url_res)
         return json.dumps(result), 200, \
                {"content-type": "application/json; charset: utf-8"}    
     else:
         return "Method " + request.method + " on roster" + \
                " not implemented!", 501, {"content-type": "text/plain; charset: utf-8"}
 
+
 @app.route('/api/people/<playerid>/career_stats', methods=['GET'])
 def career_stats(playerid):
+
+    in_args, fields, body, limit, offset = parse_and_print_args()
+    url = request.url
+    url_res = []
+    url_res.append({"current":url })
+    if offset != None and limit != None:
+        url = parse_url(url)
+        offset = (int)(offset[0])
+        limit = (int)(limit[0])
+        if limit > 10:
+            limit = 10
+    else:
+        limit = 10
+        offset = 0
+
     if request.method == 'GET':
         try:
             result = SimpleBO.career_stats(playerid)
         except Exception as e:
             return "Got Exception:" + str(e) +" ", 501, {"content-type": "text/plain; charset: utf-8"}    
         
+        if len(result) > limit:
+            result = result[offset:limit+offset]
+            offset += limit
+            url_res.append({"next":url + "&offset=" + str(offset) + "&limit=" + str(limit) })
+        
+        result.append(url_res)
         return json.dumps(result), 200, \
                {"content-type": "application/json; charset: utf-8"}    
     else:
@@ -74,12 +135,33 @@ def career_stats(playerid):
 
 @app.route('/api/teammates/<playerid>', methods=['GET'])
 def teammates(playerid):
+
+    in_args, fields, body, limit, offset = parse_and_print_args()
+    url = request.url
+    url_res = []
+    url_res.append({"current":url })
+    if offset != None and limit != None:
+        url = parse_url(url)
+        offset = (int)(offset[0])
+        limit = (int)(limit[0])
+        if limit > 10:
+            limit = 10
+    else:
+        limit = 10
+        offset = 0
+
     if request.method == 'GET':
         try:
             result = SimpleBO.teammate(playerid)
         except Exception as e:
             return "Got Exception:" + str(e) +" ", 501, {"content-type": "text/plain; charset: utf-8"}    
         
+        if len(result) > limit:
+            result = result[offset:limit+offset]
+            offset += limit
+            url_res.append({"next":url + "&offset=" + str(offset) + "&limit=" + str(limit) })
+        
+        result.append(url_res)
         return json.dumps(result), 200, \
                {"content-type": "application/json; charset: utf-8"}    
     else:
@@ -90,6 +172,18 @@ def teammates(playerid):
 @app.route('/api/<resource>/<primary_key>/<related_resource>', methods=['GET', 'POST'])
 def dependent_resource(resource, primary_key, related_resource):
     in_args, fields, body, limit, offset = parse_and_print_args()
+    url = request.url
+    url_res = []
+    url_res.append({"current":url })
+    if offset != None and limit != None:
+        url = parse_url(url)
+        offset = (int)(offset[0])
+        limit = (int)(limit[0])
+        if limit > 10:
+            limit = 10
+    else:
+        limit = 10
+        offset = 0
 
     try:
         template = SimpleBO.parse_primary_key(resource,primary_key)
@@ -108,10 +202,16 @@ def dependent_resource(resource, primary_key, related_resource):
             result = SimpleBO.find_by_template(related_resource, \
                                            relate, limit, offset,fields)
 
-
         except Exception as e:
             return "Got Exception:" + str(e) +" ", 501, {"content-type": "text/plain; charset: utf-8"}
+
+        if len(result) > limit:
+            result = result[offset:limit+offset]
+            offset += limit
+            url_res.append({"next":url + "&offset=" + str(offset) + "&limit=" + str(limit) })
         
+        result.append(url_res)
+
         return json.dumps(result), 200, \
                {"content-type": "application/json; charset: utf-8"}
     
@@ -131,6 +231,18 @@ def dependent_resource(resource, primary_key, related_resource):
 @app.route('/api/<resource>/<primary_key>', methods=['GET', 'PUT', 'DELETE'])
 def get_resource_primary_key(resource,primary_key):
     in_args, fields, body, limit, offset = parse_and_print_args()
+    url = request.url
+    url_res = []
+    url_res.append({"current":url })
+    if offset != None and limit != None:
+        url = parse_url(url)
+        offset = (int)(offset[0])
+        limit = (int)(limit[0])
+        if limit > 10:
+            limit = 10
+    else:
+        limit = 10
+        offset = 0
 
     try:
         template = SimpleBO.parse_primary_key(resource,primary_key)
@@ -144,6 +256,12 @@ def get_resource_primary_key(resource,primary_key):
         except Exception as e:
             return "Got Exception:" + str(e) +" ", 501, {"content-type": "text/plain; charset: utf-8"}
         
+        if len(result) > limit:
+            result = result[offset:limit+offset]
+            offset += limit
+            url_res.append({"next":url + "&offset=" + str(offset) + "&limit=" + str(limit) })
+        
+        result.append(url_res)
         return json.dumps(result), 200, \
                {"content-type": "application/json; charset: utf-8"}
     
@@ -170,6 +288,18 @@ def get_resource_primary_key(resource,primary_key):
 @app.route('/api/<resource>', methods=['GET', 'POST'])
 def get_resource(resource):
     in_args, fields, body, limit, offset = parse_and_print_args()
+    url = request.url
+    url_res = []
+    url_res.append({"current":url })
+    if offset != None and limit != None:
+        url = parse_url(url)
+        offset = (int)(offset[0])
+        limit = (int)(limit[0])
+        if limit > 10:
+            limit = 10
+    else:
+        limit = 10
+        offset = 0
 
     if request.method == 'GET':
         try:
@@ -178,6 +308,12 @@ def get_resource(resource):
         except Exception as e:
             return "Got Exception:" + str(e) +" ", 501, {"content-type": "text/plain; charset: utf-8"}
         
+        if len(result) > limit:
+            result = result[offset:limit+offset]
+            offset += limit
+            url_res.append({"next":url + "&offset=" + str(offset) + "&limit=" + str(limit) })
+        
+        result.append(url_res)
         return json.dumps(result), 200, \
                {"content-type": "application/json; charset: utf-8"}
     
@@ -191,8 +327,6 @@ def get_resource(resource):
     else:
         return "Method " + request.method + " on resource " + resource + \
                " not implemented!", 501, {"content-type": "text/plain; charset: utf-8"}
-
-
 
 
 if __name__ == '__main__':
