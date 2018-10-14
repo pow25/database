@@ -15,7 +15,6 @@ import SimpleBO
 app = Flask(__name__)
 
 def parse_and_print_args():
-
     fields = None
     in_args = None
     limit = None
@@ -43,18 +42,105 @@ def parse_and_print_args():
     print("Request.args : ", json.dumps(in_args))
     return in_args, fields, body, limit, offset
 
-# @app.route('/api/<roster>', methods=['GET'])
-# def roaster(roster):
-#     in_args, fields, body, limit, offset = parse_and_print_args()
-#     # if request.method == 'GET':
+@app.route('/api/roster', methods=['GET'])
+def roster():
+    in_args, fields, body, limit, offset = parse_and_print_args()
+    if request.method == 'GET':
+        try:
+            result = SimpleBO.roster(in_args)
+        except Exception as e:
+            return "Got Exception:" + str(e) +" ", 501, {"content-type": "text/plain; charset: utf-8"}    
+        
+        return json.dumps(result), 200, \
+               {"content-type": "application/json; charset: utf-8"}    
+    else:
+        return "Method " + request.method + " on roster" + \
+               " not implemented!", 501, {"content-type": "text/plain; charset: utf-8"}
+
+@app.route('/api/people/<playerid>/career_stats', methods=['GET'])
+def career_stats(playerid):
+    if request.method == 'GET':
+        try:
+            result = SimpleBO.career_stats(playerid)
+        except Exception as e:
+            return "Got Exception:" + str(e) +" ", 501, {"content-type": "text/plain; charset: utf-8"}    
+        
+        return json.dumps(result), 200, \
+               {"content-type": "application/json; charset: utf-8"}    
+    else:
+        return "Method " + request.method + " on career stats" + \
+               " not implemented!", 501, {"content-type": "text/plain; charset: utf-8"}
+
+
+@app.route('/api/teammates/<playerid>', methods=['GET'])
+def teammates(playerid):
+    if request.method == 'GET':
+        try:
+            result = SimpleBO.teammate(playerid)
+        except Exception as e:
+            return "Got Exception:" + str(e) +" ", 501, {"content-type": "text/plain; charset: utf-8"}    
+        
+        return json.dumps(result), 200, \
+               {"content-type": "application/json; charset: utf-8"}    
+    else:
+        return "Method " + request.method + " on teammates" + \
+               " not implemented!", 501, {"content-type": "text/plain; charset: utf-8"}
+
+
+@app.route('/api/<resource>/<primary_key>/<related_resource>', methods=['GET', 'POST'])
+def dependent_resource(resource, primary_key, related_resource):
+    in_args, fields, body, limit, offset = parse_and_print_args()
+
+    try:
+        template = SimpleBO.parse_primary_key(resource,primary_key)
+    except Exception as e:
+        return "Got Exception:" + str(e) +" ", 501, {"content-type": "text/plain; charset: utf-8"}
+    
+    if request.method == 'GET':
+        try:
+            result_temp = SimpleBO.find_by_template(resource, template)
+            
+            if not bool(result_temp):
+                return "Find noting by primarykey", 200, {"content-type": "application/json; charset: utf-8"}
+            
+            relate = SimpleBO.get_foreign_key(resource,result_temp)
+            print(relate)
+            result = SimpleBO.find_by_template(related_resource, \
+                                           relate, limit, offset,fields)
+
+
+        except Exception as e:
+            return "Got Exception:" + str(e) +" ", 501, {"content-type": "text/plain; charset: utf-8"}
+        
+        return json.dumps(result), 200, \
+               {"content-type": "application/json; charset: utf-8"}
+    
+    elif request.method == 'POST':
+        try:
+            SimpleBO.insert(related_resource,body)
+        except Exception as e:
+            return "Got Exception:" + str(e) +" ", 501, {"content-type": "text/plain; charset: utf-8"}
+        
+        return "Update Finished", 200, {"content-type": "text/plain; charset: utf-8"}
+
+    else:
+        return "Method " + request.method + " on resource " + resource + \
+               " not implemented!", 501, {"content-type": "text/plain; charset: utf-8"}
+
 
 @app.route('/api/<resource>/<primary_key>', methods=['GET', 'PUT', 'DELETE'])
 def get_resource_primary_key(resource,primary_key):
     in_args, fields, body, limit, offset = parse_and_print_args()
+
+    try:
+        template = SimpleBO.parse_primary_key(resource,primary_key)
+    except Exception as e:
+        return "Got Exception:" + str(e) +" ", 501, {"content-type": "text/plain; charset: utf-8"}
+
     if request.method == 'GET':
         try:
             result = SimpleBO.find_by_template(resource, \
-                                           in_args, limit, offset,fields)
+                                           template, limit, offset,fields)
         except Exception as e:
             return "Got Exception:" + str(e) +" ", 501, {"content-type": "text/plain; charset: utf-8"}
         
@@ -63,18 +149,19 @@ def get_resource_primary_key(resource,primary_key):
     
     elif request.method == 'PUT':
         try:
-            SimpleBO.update(resource,body)
+            SimpleBO.update(resource,template,body)
         except Exception as e:
             return "Got Exception:" + str(e) +" ", 501, {"content-type": "text/plain; charset: utf-8"}
         
-        return "Insert Finished", 200, {"content-type": "text/plain; charset: utf-8"}
+        return "Update Finished", 200, {"content-type": "text/plain; charset: utf-8"}
     
     elif request.method == 'DELETE':
         try:
-            SimpleBO.delete(resource,body)
+            SimpleBO.delete(resource,template)
         except Exception as e:
             return "Got Exception:" + str(e) +" ", 501, {"content-type": "text/plain; charset: utf-8"}
-    
+        
+        return "Delete Finished", 200, {"content-type": "text/plain; charset: utf-8"} 
     else:
         return "Method " + request.method + " on resource " + resource + \
                " not implemented!", 501, {"content-type": "text/plain; charset: utf-8"}
@@ -82,11 +169,8 @@ def get_resource_primary_key(resource,primary_key):
 
 @app.route('/api/<resource>', methods=['GET', 'POST'])
 def get_resource(resource):
-    # print("Calling resource")
     in_args, fields, body, limit, offset = parse_and_print_args()
-    # print("in_args:",in_args)
-    # print("fields:",fields)
-    # print("body:",body)
+
     if request.method == 'GET':
         try:
             result = SimpleBO.find_by_template(resource, \
@@ -113,4 +197,3 @@ def get_resource(resource):
 
 if __name__ == '__main__':
     app.run()
-
