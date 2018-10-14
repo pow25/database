@@ -119,7 +119,7 @@ def get_foreign_key(table,inputs):
 
     return result_dict
 
-def find_by_template(table, t, limit=None, offset=None, fields=None): 
+def find_by_template(table, t, fields=None): 
     if t == None or table == None:
         raise ValueError("The table or input template is empty")
     
@@ -133,17 +133,8 @@ def find_by_template(table, t, limit=None, offset=None, fields=None):
             fields_string += i + ","
         fields_string = fields_string[:-1]
 
-        q = "SELECT " + fields_string + " FROM " + table + " " + w 
+        q = "SELECT " + fields_string + " FROM " + table + " " + w + ";"
 
-    if limit == None and offset == None:
-        q += ";"
-    elif limit != None and offset == None:
-        q += "LIMIT " + str(limit) + ";"
-    elif limit == None and offset != None:
-        q += "LIMIT " + str(10) + "OFFSET " + str(offset) + ";"
-    else:
-        q += "LIMIT " + str(limit) + "OFFSET " + str(offset) + ";"
-    
     try:
         result = run_q(q, None, True)
     except Exception as e:

@@ -89,7 +89,11 @@ def roster():
             offset += limit
             url_res.append({"next":url + "&offset=" + str(offset) + "&limit=" + str(limit) })
         
-        result.append(url_res)
+        if len(result) > 0:
+            result.append(url_res)
+        else:
+            result = url_res
+            
         return json.dumps(result), 200, \
                {"content-type": "application/json; charset: utf-8"}    
     else:
@@ -125,7 +129,11 @@ def career_stats(playerid):
             offset += limit
             url_res.append({"next":url + "&offset=" + str(offset) + "&limit=" + str(limit) })
         
-        result.append(url_res)
+        if len(result) > 0:
+            result.append(url_res)
+        else:
+            result = url_res
+
         return json.dumps(result), 200, \
                {"content-type": "application/json; charset: utf-8"}    
     else:
@@ -161,7 +169,11 @@ def teammates(playerid):
             offset += limit
             url_res.append({"next":url + "&offset=" + str(offset) + "&limit=" + str(limit) })
         
-        result.append(url_res)
+        if len(result) > 0:
+            result.append(url_res)
+        else:
+            result = url_res
+
         return json.dumps(result), 200, \
                {"content-type": "application/json; charset: utf-8"}    
     else:
@@ -198,9 +210,7 @@ def dependent_resource(resource, primary_key, related_resource):
                 return "Find noting by primarykey", 200, {"content-type": "application/json; charset: utf-8"}
             
             relate = SimpleBO.get_foreign_key(resource,result_temp)
-            print(relate)
-            result = SimpleBO.find_by_template(related_resource, \
-                                           relate, limit, offset,fields)
+            result = SimpleBO.find_by_template(related_resource, relate, fields)
 
         except Exception as e:
             return "Got Exception:" + str(e) +" ", 501, {"content-type": "text/plain; charset: utf-8"}
@@ -210,7 +220,10 @@ def dependent_resource(resource, primary_key, related_resource):
             offset += limit
             url_res.append({"next":url + "&offset=" + str(offset) + "&limit=" + str(limit) })
         
-        result.append(url_res)
+        if len(result) > 0:
+            result.append(url_res)
+        else:
+            result = url_res
 
         return json.dumps(result), 200, \
                {"content-type": "application/json; charset: utf-8"}
@@ -251,8 +264,7 @@ def get_resource_primary_key(resource,primary_key):
 
     if request.method == 'GET':
         try:
-            result = SimpleBO.find_by_template(resource, \
-                                           template, limit, offset,fields)
+            result = SimpleBO.find_by_template(resource, template, fields)
         except Exception as e:
             return "Got Exception:" + str(e) +" ", 501, {"content-type": "text/plain; charset: utf-8"}
         
@@ -261,7 +273,11 @@ def get_resource_primary_key(resource,primary_key):
             offset += limit
             url_res.append({"next":url + "&offset=" + str(offset) + "&limit=" + str(limit) })
         
-        result.append(url_res)
+        if len(result) > 0:
+            result.append(url_res)
+        else:
+            result = url_res
+       
         return json.dumps(result), 200, \
                {"content-type": "application/json; charset: utf-8"}
     
@@ -303,8 +319,7 @@ def get_resource(resource):
 
     if request.method == 'GET':
         try:
-            result = SimpleBO.find_by_template(resource, \
-                                           in_args, limit, offset,fields)
+            result = SimpleBO.find_by_template(resource, in_args, fields)
         except Exception as e:
             return "Got Exception:" + str(e) +" ", 501, {"content-type": "text/plain; charset: utf-8"}
         
@@ -313,7 +328,11 @@ def get_resource(resource):
             offset += limit
             url_res.append({"next":url + "&offset=" + str(offset) + "&limit=" + str(limit) })
         
-        result.append(url_res)
+        if len(result) > 0:
+            result.append(url_res)
+        else:
+            result = url_res
+        
         return json.dumps(result), 200, \
                {"content-type": "application/json; charset: utf-8"}
     
