@@ -77,13 +77,13 @@ class RDBDataTable:
     # Get the names of the columns
     def get_column_names(self):
         q = "show columns from " + self.table_file
-        result = self.run_q(q, True)
+        result = self.run_q(q, None, True)
         result = [r['Field'] for r in result]
         return list(result)
 
     def get_no_of_rows(self):
         q = "select count(*) as count from " + self.table_file
-        result = self.run_q(q, True)
+        result = self.run_q(q, None, True)
         result = result[0]['count']
         return result
 
@@ -91,7 +91,7 @@ class RDBDataTable:
         # This is MySQL specific and relies on the fact that MySQL returns the keys in
         # based on seq_in_index
         q = "show keys from " + self.table_file
-        result = self.run_q(q, True)
+        result = self.run_q(q, None, True)
         keys = [(r['Column_name'], r['Seq_in_index']) for r in result]
         keys = sorted(keys, key=itemgetter(1))
         keys = [k[0] for k in keys]
