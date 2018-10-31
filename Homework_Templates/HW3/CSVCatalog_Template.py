@@ -123,6 +123,13 @@ class TableDefinition:
         """
         pass
 
+    def get_index_selectivity(self, index_name):
+        """
+
+        :param index_name: Do not implement for now. Will cover in class.
+        :return:
+        """
+
     def describe_table(self):
         """
         Simply wraps to_json()
