@@ -140,7 +140,8 @@ class TableDefinition:
 
 class CSVCatalog:
 
-    def __init__(self, dbhost, dbport, dbname, dbuser, dbpw, debug_mode=None):
+    def __init__(self, dbhost="somedefault", dbport="somedefault",
+                 dbname="somedefault", dbuser="somedefault", dbpw="somedefault", debug_mode=None):
         pass
 
     def __str__(self):
