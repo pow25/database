@@ -225,10 +225,8 @@ class CSVTable:
         # If not optimizations are possible, do a simple nested loop join and then apply where_clause and
         # project clause to result.
         #
-        # Two optimizations may be possible:
-        # 1. Pushing select conditions down/through the JOIN.
-        # 2. Determining that you can use an index on one of the tables to perform the probe of the right table.
-        #    This may require switching the left and right tables.
+        # At least two vastly different optimizations are be possible. You should figure out two different optimizations
+        # and implement them.
         #
         pass
 
