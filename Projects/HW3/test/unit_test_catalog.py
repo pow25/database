@@ -22,6 +22,75 @@ def print_test_separator(msg):
     print(lot_of_stars, '  ', msg, '  ', lot_of_stars)
     print("\n")
 
+def test_create_table_0():
+    """
+    Creates a table that includes several column and index definitions.
+    :return:
+    """
+    print_test_separator("Starting test_create_table_0")
+    cleanup()
+    cat = CSVCatalog.CSVCatalog()
+
+    cds = []
+    cds.append(CSVCatalog.ColumnDefinition("playerID", "text", True))
+    cds.append(CSVCatalog.ColumnDefinition("nameLast", "text", True))
+    cds.append(CSVCatalog.ColumnDefinition("nameFirst", column_type="text"))
+    ids = []
+    ids.append(CSVCatalog.IndexDefinition(["playerID"], "PRIMARY", "PRIMARY"))
+    t = cat.create_table("people", "../data/People.csv",cds,ids)
+    print("People table", json.dumps(t.describe_table(), indent=2))
+    print_test_separator("Complete test_create_table_0")
+
+def test_create_table_0_fail():
+    """
+    Creates a table that includes several column and duplicated index.
+    :return:
+    """
+    print_test_separator("Starting test_create_table_0")
+    cleanup()
+    cat = CSVCatalog.CSVCatalog()
+
+    cds = []
+    cds.append(CSVCatalog.ColumnDefinition("playerID", "text", True))
+    cds.append(CSVCatalog.ColumnDefinition("nameLast", "text", True))
+    cds.append(CSVCatalog.ColumnDefinition("nameFirst", column_type="text"))
+    ids = []
+    ids.append(CSVCatalog.IndexDefinition(["playerID","nameLast"], "PRIMARY", "PRIMARY"))
+    ids.append(CSVCatalog.IndexDefinition(["playerID","nameFirst"], "PRIMARY", "PRIMARY"))
+    try:
+        t = cat.create_table("people", "../data/People.csv",cds,ids)
+    except Exception as e:
+        print("created_0 failed with e = ", e)
+        print("create_0 should fail.")
+        print_test_separator("Successful end for test_create_table_0_fail")
+        return
+    print_test_separator("INCORRECT end for  test_create_table_0_fail")
+
+def test_create_table_0_fail2():
+    """
+    Creates a table that includes several column and duplicated index name.
+    :return:
+    """
+    print_test_separator("Starting test_create_table_0")
+    cleanup()
+    cat = CSVCatalog.CSVCatalog()
+
+    cds = []
+    cds.append(CSVCatalog.ColumnDefinition("playerID", "text", True))
+    cds.append(CSVCatalog.ColumnDefinition("nameLast", "text", True))
+    cds.append(CSVCatalog.ColumnDefinition("nameFirst", column_type="text"))
+    ids = []
+    ids.append(CSVCatalog.IndexDefinition(["playerID","nameLast"], "PRIMARY", "PRIMARY"))
+    ids.append(CSVCatalog.IndexDefinition(["nameFirst"], "PRIMARY", "INDEX"))
+    try:
+        t = cat.create_table("people", "../data/People.csv",cds,ids)
+    except Exception as e:
+        print("created_0 failed with e = ", e)
+        print("create_0 should fail.")
+        print_test_separator("Successful end for test_create_table_0_fail2")
+        return
+    print_test_separator("INCORRECT end for  test_create_table_0_fail2")
+
 def test_create_table_1():
     """
     Simple create of table definition. No columns or indexes.
@@ -100,6 +169,54 @@ def test_create_table_3_fail():
     except Exception as e:
         print("Exception e = ", e)
         print_test_separator("Complete test_create_table_3_fail successfully")
+
+def test_create_table_3_fail2():
+    """
+    Creates a table that includes several column definitions. This test should fail because contains duplicated
+    columns.
+    :return:
+    """
+    print_test_separator("Starting test_create_table_3_fail")
+    cleanup()
+    cat = CSVCatalog.CSVCatalog()
+
+    cds = []
+    cds.append(CSVCatalog.ColumnDefinition("playerID", "text", True))
+    cds.append(CSVCatalog.ColumnDefinition("nameLast", "text", True))
+    cds.append(CSVCatalog.ColumnDefinition("nameFirst", column_type="text"))
+    cds.append(CSVCatalog.ColumnDefinition("playerID", "text", True))
+
+    try:
+        t = cat.create_table("people", "../data/People.csv",cds)
+        print_test_separator("FAILURE test_create_table_3")
+        print("People table", json.dumps(t.describe_table(), indent=2))
+    except Exception as e:
+        print("Exception e = ", e)
+        print_test_separator("Complete test_create_table_3_fail2 successfully")
+
+def test_create_table_4_fail2():
+    """
+    Creates a table that includes several column definitions. This test should fail because we are trying
+    to insert duplicated columns.
+    :return:
+    """
+    print_test_separator("Starting test_create_table_4_fail")
+    cleanup()
+    cat = CSVCatalog.CSVCatalog()
+
+    cds = []
+    cds.append(CSVCatalog.ColumnDefinition("playerID", "text", True))
+    cds.append(CSVCatalog.ColumnDefinition("nameLast", "text", True))
+    cds.append(CSVCatalog.ColumnDefinition("nameFirst", column_type="text"))
+
+    try:
+        t = cat.create_table("people", "../data/People.csv",cds)
+        t.add_column_definition(CSVCatalog.ColumnDefinition("playerID", "text", True))
+        print_test_separator("FAILURE test_create_table_4")
+        print("People table", json.dumps(t.describe_table(), indent=2))
+    except Exception as e:
+        print("Exception e = ", e)
+        print_test_separator("Complete test_create_table_4_fail2 successfully")
 
 def test_create_table_4():
     """
@@ -194,9 +311,43 @@ def test_create_table_5():
     print("Modified status of table = \n", json.dumps(t.describe_table(), indent=2))
     print_test_separator("Success test_create_table_5")
 
-test_create_table_1()
-# test_create_table_2_fail()
-# test_create_table_3()
-# test_create_table_3_fail()
-# test_create_table_4()
+def test_create_table_6():
+    """
+    test both drop column and drop index
+    """
+    print_test_separator("Starting test_create_table_6")
+    cleanup()
+    cat = CSVCatalog.CSVCatalog()
 
+    cds = []
+    cds.append(CSVCatalog.ColumnDefinition("playerID", "text", True))
+    cds.append(CSVCatalog.ColumnDefinition("teamID", "text", True))
+    cds.append(CSVCatalog.ColumnDefinition("yearID", column_type="text", not_null=True))
+    cds.append(CSVCatalog.ColumnDefinition("stint", column_type="number", not_null=True))
+    cds.append(CSVCatalog.ColumnDefinition("H", column_type="number", not_null=False))
+    cds.append(CSVCatalog.ColumnDefinition("AB", column_type="number", not_null=False))
+
+    t = cat.create_table("batting","../data/Batting.csv", cds)
+
+    t.define_primary_key(['playerID', 'teamID', 'yearID', 'stint'])
+    print("Batting table", json.dumps(t.describe_table(), indent=2))
+    print_test_separator("After Dropping")
+    t.drop_column_definition("playerID")
+    t.drop_index("PRIMARY")
+    print("Batting table", json.dumps(t.describe_table(), indent=2))
+    print_test_separator("Completed test_create_table_6")
+
+test_create_table_0()
+test_create_table_0_fail()
+test_create_table_0_fail2()
+test_create_table_1()
+test_create_table_2_fail()
+test_create_table_3()
+test_create_table_3_fail()
+test_create_table_3_fail2()
+test_create_table_4()
+test_create_table_4_fail()
+test_create_table_4_fail2()
+test_create_table_5_prep()
+test_create_table_5()
+test_create_table_6()

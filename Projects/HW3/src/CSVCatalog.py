@@ -174,6 +174,8 @@ class TableDefinition:
             
             if index_definitions != None:
                 for i in index_definitions:
+                    if not self.__check_index_unique__(i.index_name,i.index_type):
+                        raise ValueError("Duplicated index name for a same table!!")
                     for j in i.column_names:
                         q = "INSERT INTO csvcatalog.index (table_name, index_name, column_name, index_type) \
                         VALUES ('" +t_name+"','" + i.index_name + "','" + j +"','"+i.index_type+ "');"
@@ -185,6 +187,15 @@ class TableDefinition:
 
     def __str__(self):
         return json.dumps(self.to_json(), indent=2)
+
+    def __check_index_unique__(self,index_name,index_type):
+        q = "SELECT * FROM csvcatalog.index WHERE table_name='" + self.table_name + "';"
+        self.cursor.execute(q)
+        result = self.cursor.fetchall()
+        for r in result:
+            if r['index_name']  == index_name and r['index_type'] != index_type:
+                return False
+        return True
 
     def __load_columns__(self):
         q = "SELECT * FROM csvcatalog.column WHERE table_name='" + self.table_name + "';"
@@ -202,7 +213,7 @@ class TableDefinition:
         self.csv_f = r[0]['file_name']
 
     def __load_indexes__(self):
-        q = "SELECT * FROM csvcatalog.index WHERE table_name='" + "batting" + "';"
+        q = "SELECT * FROM csvcatalog.index WHERE table_name='" + self.table_name + "';"
         self.cursor.execute(q)
         result = self.cursor.fetchall()
         temp_dict = {}
@@ -310,6 +321,8 @@ class TableDefinition:
         :param kind: One of the valid index types.
         :return:
         """
+        if not self.__check_index_unique__(index_name,kind):
+            raise ValueError("Duplicated index name for a same table!!")
         for i in columns:
             if i not in self.valid_column_names:
                 raise ValueError("The columns contains invalid column names!")
@@ -359,7 +372,7 @@ class TableDefinition:
         Simply wraps to_json()
         :return: JSON representation.
         """
-        json_obj=self.to_json()
+        json_obj = self.to_json()
         return json_obj
 
 
@@ -374,9 +387,9 @@ class CSVCatalog:
         except:
             print( "Can't connect to the database" )
 
-    def create_table(self, table_name, file_name, column_definitions=None, primary_key_columns=None):
+    def create_table(self, table_name, file_name, column_definitions=None, index_definitions=None):
         try:
-            res = TableDefinition(table_name,file_name,column_definitions,cnx=self.cnx)
+            res = TableDefinition(table_name,file_name,column_definitions,index_definitions,cnx=self.cnx)
         except Exception as e:
             raise e
         return res
