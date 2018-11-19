@@ -337,6 +337,52 @@ def test_create_table_6():
     print("Batting table", json.dumps(t.describe_table(), indent=2))
     print_test_separator("Completed test_create_table_6")
 
+def test_create_table_7():
+    """
+    test get_index_selectivity
+    """
+    print_test_separator("Starting test_create_table_7")
+    cleanup()
+    cat = CSVCatalog.CSVCatalog()
+
+    cds = []
+    cds.append(CSVCatalog.ColumnDefinition("playerID", "text", True))
+    cds.append(CSVCatalog.ColumnDefinition("teamID", "text", True))
+    cds.append(CSVCatalog.ColumnDefinition("yearID", column_type="text", not_null=True))
+    cds.append(CSVCatalog.ColumnDefinition("stint", column_type="number", not_null=True))
+    cds.append(CSVCatalog.ColumnDefinition("H", column_type="number", not_null=False))
+    cds.append(CSVCatalog.ColumnDefinition("AB", column_type="number", not_null=False))
+
+    t = cat.create_table("batting","../data/Batting.csv", cds)
+
+    t.define_primary_key(['playerID', 'teamID', 'yearID', 'stint'])
+    t.define_index("team_year_idx", ['teamID', 'yearID'])
+    r1 = t.get_index_selectivity("PRIMARY")
+    r2 = t.get_index_selectivity("team_year_idx")
+    print("The index selectivity for PRIMARY:",r1)
+    print("The index selectivity for team_year_idx:",r2)
+    print_test_separator("Completed test_create_table_7")
+
+def test_create_table_8():
+    """
+    test get_index_selectivity
+    """
+    print_test_separator("Starting test_create_table_8")
+    cleanup()
+    cat = CSVCatalog.CSVCatalog()
+
+    cds = []
+    cds.append(CSVCatalog.ColumnDefinition("playerID", "text", True))
+    cds.append(CSVCatalog.ColumnDefinition("nameLast", "text", True))
+    cds.append(CSVCatalog.ColumnDefinition("nameFirst", column_type="text"))
+
+    t = cat.create_table("people","../data/People.csv", cds)
+
+    t.define_index("full_name", ['nameFirst', 'nameLast'])
+    r2 = t.get_index_selectivity("full_name")
+    print("The index selectivity for full_name:",r2)
+    print_test_separator("Completed test_create_table_8")
+
 test_create_table_0()
 test_create_table_0_fail()
 test_create_table_0_fail2()
@@ -351,3 +397,5 @@ test_create_table_4_fail2()
 test_create_table_5_prep()
 test_create_table_5()
 test_create_table_6()
+test_create_table_7()
+test_create_table_8()

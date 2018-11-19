@@ -362,10 +362,43 @@ class TableDefinition:
 
     def get_index_selectivity(self, index_name):
         """
-        :param index_name: Do not implement for now. Will cover in class.
+        :param index_name:
         :return:
-        """
+        """    
+        try:
+            with open(self.csv_f,mode = 'r') as f:
+                reader = csv.reader(f, delimiter=';')
+                row_count = sum(1 for row in reader) - 1
+            f.close()
+        except IOError:
+            raise ValueError("The CSV file doens't exit!")
 
+        q = "SELECT * FROM csvcatalog.index WHERE table_name='" + self.table_name +\
+        "' AND index_name='" +index_name+"';"
+        self.cursor.execute(q)
+        result = self.cursor.fetchall()
+        if len(result) == 0: 
+            raise ValueError("The index_name is invalid, it doesn't exist in catalog!")
+        
+        list_columns = [] #using a list of sets to store each columns distinct value
+        for r in result:
+            list_columns.append(r['column_name'])
+
+        
+        distinct_for_each = set()
+        try:
+            with open(self.csv_f,mode = 'r') as f:
+                csv_reader = csv.DictReader(f)
+                for i in csv_reader:
+                    temp = ""
+                    for j in list_columns:
+                        temp += i[j]
+                    distinct_for_each.add(temp)
+                f.close()
+        except IOError:
+            raise ValueError("The CSV file doens't exit!")
+
+        return row_count / len(distinct_for_each)
 
     def describe_table(self):
         """

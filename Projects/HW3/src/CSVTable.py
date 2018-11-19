@@ -1,10 +1,5 @@
 import csv  # Python package for reading and writing CSV files.
-
-# You MAY have to modify to match your project's structure.
-from Homework_Templates.HW3.src import DataTableExceptions
-from Homework_Templates.HW3.src import CSVCatalog_Template as CSVCatalog
-
-
+import CSVCatalog
 import json
 
 max_rows_to_print = 10
@@ -21,7 +16,8 @@ class CSVTable:
         :param load: Load data from a CSV file. If load=False, this is a derived table and engine will
             add rows instead of loading from file.
         """
-
+        if t_name == None:
+            raise ValueError("The table name can't be None!")
         self.__table_name__ = t_name
 
         # Holds loaded metadata from the catalog. You have to implement  the called methods below.
@@ -42,7 +38,7 @@ class CSVTable:
         Loads metadata from catalog and sets __description__ to hold the information.
         :return:
         """
-        pass
+        self.__description__ = self.__catalog__.get_table(self.__table_name__)
 
     # Load from a file and creates the table and data.
     def __load__(self):
@@ -70,8 +66,15 @@ class CSVTable:
                 code=DataTableExceptions.DataTableException.invalid_file,
                 message="Could not read file = " + fn)
 
+    def __get_file_name__(self):
+        return self.__description__.csv_f
+
     def __get_column_names__(self):
-        pass
+        r = self.__description__.column_definitions
+        res = []
+        for i in r:
+            res.append(i.column_name)
+        return res
 
     def __str__(self):
         """
@@ -193,22 +196,13 @@ class CSVTable:
         pass
 
     def insert(self, r):
-        raise DataTableExceptions.DataTableException(
-            code=DataTableExceptions.DataTableException.not_implemented,
-            message="Insert not implemented"
-        )
+        pass
 
     def delete(self, t):
-        raise DataTableExceptions.DataTableException(
-            code=DataTableExceptions.DataTableException.not_implemented,
-            message="Delete not implemented"
-        )
+        pass
 
     def update(self, t, change_values):
-        raise DataTableExceptions.DataTableException(
-            code=DataTableExceptions.DataTableException.not_implemented,
-            message="Updated not implemented"
-        )
+        pass
 
     def join(self, right_r, on_fields, where_template=None, project_fields=None):
         """
