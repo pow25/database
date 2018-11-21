@@ -37,6 +37,7 @@ class ColumnDefinition:
         json_obj['column_name'] = self.column_name
         json_obj['column_type'] = self.column_type
         json_obj['not_null'] = self.not_null
+        
         return json_obj
 
 
@@ -72,7 +73,9 @@ class IndexDefinition:
         json_obj['index_name'] = self.index_name
         json_obj['column_names'] = self.column_names
         json_obj['index_type'] = self.index_type
+
         return json_obj
+
 
 class TableDefinition:
     """
@@ -198,7 +201,7 @@ class TableDefinition:
         return True
 
     def __load_columns__(self):
-        q = "SELECT * FROM csvcatalog.column WHERE table_name='" + self.table_name + "';"
+        q = "SELECT * FROM csvcatalog.column WHERE table_name='" + self.table_name + "' ORDER BY column_name;"
         self.cursor.execute(q)
         result = self.cursor.fetchall()
 
@@ -210,6 +213,10 @@ class TableDefinition:
         q = "SELECT * FROM csvcatalog.table WHERE table_name='" + self.table_name + "';"
         self.cursor.execute(q)
         r = self.cursor.fetchall()
+        # q = "SELECT * FROM csvcatalog.table;"
+        # self.cursor.execute(q)
+        # c = self.cursor.fetchall()
+        # print(c)
         self.csv_f = r[0]['file_name']
 
     def __load_indexes__(self):
@@ -265,6 +272,10 @@ class TableDefinition:
         for i in self.column_definitions:
             if i.column_name == c:
                 self.column_definitions.remove(i)
+                for j in self.index_definitions:
+                    if c in j.column_names:
+                        self.drop_index(j.index_name)
+
 
     def to_json(self):
         """
@@ -285,6 +296,7 @@ class TableDefinition:
         for i in self.index_definitions:
             temp[i.index_name] = i.to_json()
         json_obj['indexes'] = temp
+
         return json_obj
 
     def define_primary_key(self, columns):
@@ -355,7 +367,7 @@ class TableDefinition:
             self.cnx.commit()
         except Exception as e:
             raise e
-        
+
         for i in self.index_definitions:
             if i.index_name == index_name:
                 self.index_definitions.remove(i)
@@ -398,7 +410,7 @@ class TableDefinition:
         except IOError:
             raise ValueError("The CSV file doens't exit!")
 
-        return row_count / len(distinct_for_each)
+        return len(distinct_for_each) / row_count 
 
     def describe_table(self):
         """

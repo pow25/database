@@ -46,7 +46,7 @@ def test_create_table_0_fail():
     Creates a table that includes several column and duplicated index.
     :return:
     """
-    print_test_separator("Starting test_create_table_0")
+    print_test_separator("Starting test_create_table_0_fail")
     cleanup()
     cat = CSVCatalog.CSVCatalog()
 
@@ -71,7 +71,7 @@ def test_create_table_0_fail2():
     Creates a table that includes several column and duplicated index name.
     :return:
     """
-    print_test_separator("Starting test_create_table_0")
+    print_test_separator("Starting test_create_table_0_fail2")
     cleanup()
     cat = CSVCatalog.CSVCatalog()
 
@@ -176,7 +176,7 @@ def test_create_table_3_fail2():
     columns.
     :return:
     """
-    print_test_separator("Starting test_create_table_3_fail")
+    print_test_separator("Starting test_create_table_3_fail2")
     cleanup()
     cat = CSVCatalog.CSVCatalog()
 
@@ -200,7 +200,7 @@ def test_create_table_4_fail2():
     to insert duplicated columns.
     :return:
     """
-    print_test_separator("Starting test_create_table_4_fail")
+    print_test_separator("Starting test_create_table_4_fail2")
     cleanup()
     cat = CSVCatalog.CSVCatalog()
 
@@ -383,6 +383,79 @@ def test_create_table_8():
     print("The index selectivity for full_name:",r2)
     print_test_separator("Completed test_create_table_8")
 
+def test_drop_table_9():
+    """
+    test drop_index,drop_column_defintion
+    """
+    print_test_separator("Starting test_drop_table_9")
+    cleanup()
+    cat = CSVCatalog.CSVCatalog()
+
+    cds = []
+    cds.append(CSVCatalog.ColumnDefinition("playerID", "text", True))
+    cds.append(CSVCatalog.ColumnDefinition("nameLast", "text", True))
+    cds.append(CSVCatalog.ColumnDefinition("nameFirst", column_type="text"))
+
+    t = cat.create_table("people","../data/People.csv", cds)
+
+    t.define_index("full_name", ['nameFirst', 'nameLast'])
+    print(json.dumps(t.describe_table(),indent=2))
+    
+    print_test_separator("Drop the index")
+    t.drop_index('full_name')
+    print(json.dumps(t.describe_table(),indent=2))
+
+    print_test_separator("Completed test_drop_table_9")
+
+def test_drop_table_10():
+    """
+    test drop_index by drop_column_defintion
+    """
+    print_test_separator("Starting test_drop_table_10")
+    cleanup()
+    cat = CSVCatalog.CSVCatalog()
+
+    cds = []
+    cds.append(CSVCatalog.ColumnDefinition("playerID", "text", True))
+    cds.append(CSVCatalog.ColumnDefinition("nameLast", "text", True))
+    cds.append(CSVCatalog.ColumnDefinition("nameFirst", column_type="text"))
+
+    t = cat.create_table("people","../data/People.csv", cds)
+
+    t.define_index("full_name", ['nameFirst', 'nameLast'])
+    print(json.dumps(t.describe_table(),indent=2))
+    
+    print_test_separator("Drop the column:nameLast, the index should also be dropped")
+    t.drop_column_definition('nameLast')
+    print(json.dumps(t.describe_table(),indent=2))
+
+    print_test_separator("Completed test_drop_table_10")
+
+def test_load_table_11():
+    """
+    test load table
+    """
+    print_test_separator("Starting test_load_table_11")
+    cleanup()
+    cat = CSVCatalog.CSVCatalog()
+
+    cds = []
+    cds.append(CSVCatalog.ColumnDefinition("playerID", "text", True))
+    cds.append(CSVCatalog.ColumnDefinition("nameLast", "text", True))
+    cds.append(CSVCatalog.ColumnDefinition("nameFirst", column_type="text"))
+
+    t = cat.create_table("people","../data/People.csv", cds)
+
+    t.define_index("full_name", ['nameFirst', 'nameLast'])
+    print(json.dumps(t.describe_table(),indent=2))
+    
+    print_test_separator("Drop the index and load the table")
+    t.drop_index('full_name')
+    b = cat.get_table('people')
+    print(json.dumps(b.describe_table(),indent=2))
+
+    print_test_separator("Completed test_load_table_11")
+
 test_create_table_0()
 test_create_table_0_fail()
 test_create_table_0_fail2()
@@ -399,3 +472,6 @@ test_create_table_5()
 test_create_table_6()
 test_create_table_7()
 test_create_table_8()
+test_drop_table_9()
+test_drop_table_10()
+test_load_table_11()

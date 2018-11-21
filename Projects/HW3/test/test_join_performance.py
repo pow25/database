@@ -1,11 +1,12 @@
-
-from src import CSVCatalog
-from src import CSVTable
+import sys
+sys.path.insert(0, '../src')
+import CSVCatalog
+import CSVTable
 
 import time
 import json
 
-data_dir = "../Data/core/"
+data_dir = "../data/"
 
 def cleanup():
     """
@@ -24,21 +25,12 @@ def print_test_separator(msg):
     print("\n")
 
 
-def test_join_not_optimized(optimize=False):
-    """
-
-    :return:
-    """
-
-    print_test_separator("Starting test_optimizable_1, optimize = " + str(optimize))
-    print("\n\nDude. This takes 30 minutes. Trust me.\n\n")
-    return
+def test_join_optimized():
 
     cleanup()
-    print_test_separator("Starting test_optimizable_1, optimize = " + str(optimize))
+    print_test_separator("Starting test_optimizable_1")
 
     cat = CSVCatalog.CSVCatalog()
-    cds = []
 
     cds = []
     cds.append(CSVCatalog.ColumnDefinition("playerID", "text", True))
@@ -77,7 +69,7 @@ def test_join_not_optimized(optimize=False):
     start_time = time.time()
 
     tmp = { "playerID": "willite01"}
-    join_result = people_tbl.join(batting_tbl,['playerID'], tmp, optimize=optimize)
+    join_result = people_tbl.join(batting_tbl,['playerID'], tmp)
 
     end_time = time.time()
 
@@ -88,16 +80,15 @@ def test_join_not_optimized(optimize=False):
     print_test_separator("Complete test_join_optimizable")
 
 
-def test_join_optimizable_2(optimize=False):
+def test_join_optimizable_2():
     """
     Calling this with optimize=True turns on optimizations in the JOIN code.
     :return:
     """
     cleanup()
-    print_test_separator("Starting test_optimizable_2, optimize = " + str(optimize))
+    print_test_separator("Starting test_optimizable_2")
 
     cat = CSVCatalog.CSVCatalog()
-    cds = []
 
     cds = []
     cds.append(CSVCatalog.ColumnDefinition("playerID", "text", True))
@@ -112,7 +103,7 @@ def test_join_optimizable_2(optimize=False):
         data_dir + "People.csv",
         cds)
     print("People table metadata = \n", json.dumps(t.describe_table(), indent=2))
-    t.define_index("pid_idx", "INDEX", ['playerID'])
+    t.define_index("pid_idx", ['playerID'], 'INDEX')
 
     cds = []
     cds.append(CSVCatalog.ColumnDefinition("playerID", "text", True))
@@ -136,7 +127,7 @@ def test_join_optimizable_2(optimize=False):
 
     start_time = time.time()
 
-    join_result = people_tbl.join(batting_tbl,['playerID'], None, optimize=optimize)
+    join_result = people_tbl.join(batting_tbl,['playerID'], None)
 
     end_time = time.time()
 
@@ -147,16 +138,15 @@ def test_join_optimizable_2(optimize=False):
     print_test_separator("Complete test_join_optimizable_2")
 
 
-def test_join_optimizable_3(optimize=False):
+def test_join_optimizable_3():
     """
 
     :return:
     """
     cleanup()
-    print_test_separator("Starting test_optimizable_3, optimize = " + str(optimize))
+    print_test_separator("Starting test_optimizable_3")
 
     cat = CSVCatalog.CSVCatalog()
-    cds = []
 
     cds = []
     cds.append(CSVCatalog.ColumnDefinition("playerID", "text", True))
@@ -170,7 +160,7 @@ def test_join_optimizable_3(optimize=False):
         "people",
         data_dir + "People.csv",
         cds)
-    t.define_index("pid_idx", "INDEX", ['playerID'])
+    t.define_index("pid_idx", ['playerID'], "INDEX")
     print("People table metadata = \n", json.dumps(t.describe_table(), indent=2))
 
     cds = []
@@ -186,7 +176,7 @@ def test_join_optimizable_3(optimize=False):
         data_dir + "Batting.csv",
         cds)
     print("Batting table metadata = \n", json.dumps(t.describe_table(), indent=2))
-    t.define_index("pid_idx", "INDEX", ['playerID'])
+    t.define_index("pid_idx", ['playerID'], "INDEX")
 
     people_tbl = CSVTable.CSVTable("people")
     batting_tbl = CSVTable.CSVTable("batting")
@@ -197,7 +187,7 @@ def test_join_optimizable_3(optimize=False):
     start_time = time.time()
 
     tmp = {"playerID": "willite01"}
-    join_result = people_tbl.join(batting_tbl,['playerID'], tmp, optimize=optimize)
+    join_result = people_tbl.join(batting_tbl,['playerID'], tmp)
 
     end_time = time.time()
 
@@ -207,8 +197,59 @@ def test_join_optimizable_3(optimize=False):
 
     print_test_separator("Complete test_join_optimizable_3")
 
+def test_join_optimizable_4():
+    """
+    join batting and team
+    :return:
+    """
+    cleanup()
+    print_test_separator("Starting test_optimizable_4")
 
-test_join_not_optimized(optimize=False)
-test_join_optimizable_2(optimize=True)
-test_join_optimizable_3(optimize=True)
+    cat = CSVCatalog.CSVCatalog()
 
+    cds = []
+    cds.append(CSVCatalog.ColumnDefinition("playerID", "text", True))
+    cds.append(CSVCatalog.ColumnDefinition("H", "number", True))
+    cds.append(CSVCatalog.ColumnDefinition("AB", column_type="number"))
+    cds.append(CSVCatalog.ColumnDefinition("teamID", "text", True))
+    cds.append(CSVCatalog.ColumnDefinition("yearID", "text", True))
+    cds.append(CSVCatalog.ColumnDefinition("stint", column_type="number", not_null=True))
+    cds.append(CSVCatalog.ColumnDefinition("lgID", "text", True))
+
+    t = cat.create_table( "batting", data_dir + "Batting.csv",cds)
+    t.define_index("pid_idx", ['playerID'], "INDEX")
+    print("Batting table metadata = \n", json.dumps(t.describe_table(), indent=2))
+    
+
+
+    cds = []
+    cds.append(CSVCatalog.ColumnDefinition("franchID", "text", True))
+    cds.append(CSVCatalog.ColumnDefinition("teamID", "text", True))
+    cds.append(CSVCatalog.ColumnDefinition("yearID", "text", True))
+    cds.append(CSVCatalog.ColumnDefinition("W", column_type="number", not_null=True))
+    cds.append(CSVCatalog.ColumnDefinition("lgID", "text", True))
+
+    t = cat.create_table( "teams", data_dir + "Teams.csv", cds)
+    t.define_index("pid_idx", ['yearID','teamID'], "INDEX")
+    print("Teams table metadata = \n", json.dumps(t.describe_table(), indent=2))
+
+    batting_tbl = CSVTable.CSVTable("batting")
+    team_tbl = CSVTable.CSVTable("teams")
+    print("Loaded batting table = \n", batting_tbl)
+    print("Loaded Teams table = \n", team_tbl)
+    start_time = time.time()
+
+    tmp = {"playerID": "willite01", "yearID":"1956"}
+    join_result = batting_tbl.join(team_tbl,['yearID', 'lgID','teamID'], tmp)
+
+    end_time = time.time()
+    print("Result = \n", join_result)
+    elapsed_time = end_time - start_time
+    print("\n\nElapsed time = ", elapsed_time)
+
+    print_test_separator("Complete test_join_optimizable_4")
+
+test_join_optimized()
+test_join_optimizable_2()
+test_join_optimizable_3()
+test_join_optimizable_4()
