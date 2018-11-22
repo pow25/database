@@ -110,9 +110,12 @@ class TableDefinition:
         self.cursor = self.cnx.cursor()
         
         if load == True:
-            self.__load_core_definition__()
-            self.__load_columns__()
-            self.__load_indexes__()
+            try:
+                self.__load_core_definition__()
+                self.__load_columns__()
+                self.__load_indexes__()
+            except Exception as e:
+                raise e
             valid_column_names = ""
             try:
                 with open(self.csv_f) as f:
@@ -213,11 +216,10 @@ class TableDefinition:
         q = "SELECT * FROM csvcatalog.table WHERE table_name='" + self.table_name + "';"
         self.cursor.execute(q)
         r = self.cursor.fetchall()
-        # q = "SELECT * FROM csvcatalog.table;"
-        # self.cursor.execute(q)
-        # c = self.cursor.fetchall()
-        # print(c)
-        self.csv_f = r[0]['file_name']
+        if r:
+            self.csv_f = r[0]['file_name']
+        else:
+            raise ValueError("The table can't be found in the database")
 
     def __load_indexes__(self):
         q = "SELECT * FROM csvcatalog.index WHERE table_name='" + self.table_name + "';"
@@ -453,5 +455,8 @@ class CSVCatalog:
         :param table_name: Name of the table.
         :return:
         """
-        result = TableDefinition(t_name=table_name, load=True, cnx=self.cnx)
+        try:
+            result = TableDefinition(t_name=table_name, load=True, cnx=self.cnx)
+        except Exception as e:
+            raise e
         return result

@@ -6,7 +6,6 @@ max_rows_to_print = 10
 
 class CSVTable:
     # Table engine needs to load table definition information.
-    __catalog__ = CSVCatalog.CSVCatalog()
 
     def __init__(self, t_name, load=True):
         """
@@ -15,6 +14,7 @@ class CSVTable:
         :param load: Load data from a CSV file. If load=False, this is a derived table and engine will
             add rows instead of loading from file.
         """
+        self.__catalog__ = CSVCatalog.CSVCatalog()
         if t_name == None:
             raise ValueError("The table name can't be None!")
         self.__table_name__ = t_name
