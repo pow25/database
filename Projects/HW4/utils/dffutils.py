@@ -1,7 +1,7 @@
 import json
 import pymysql
 #from . import DataTableExceptions               # Exceptions for the solution
-from utils import utils as  ut
+from utils import utils as ut
 
 pymysql_exceptions = (
     pymysql.err.IntegrityError,
@@ -84,7 +84,6 @@ def commit_cnx(cnx):
     cnx.commit()
     cnx.close()
 
-
 def abort_cnx(cnx):
     cnx.close()
 
@@ -98,7 +97,6 @@ def run_q(cnx, q, args, fetch=False, commit=True):
     """
     #debug_message("run_q: q = " + q)
     ut.debug_message("Q = " + q)
-    ut.debug_message("Args = ", args)
 
     result = None
 
@@ -144,6 +142,3 @@ def debug_message(msg, obj=None):
         out_msg += ", object = " + obj_msg
 
     print(out_msg)
-
-def debug_messages(msg, obj=None):
-    pass

@@ -1,5 +1,6 @@
+import sys
+sys.path.insert(0, '../')
 import redis
-from utils import utils as ut
 from operator import itemgetter
 
 """
@@ -12,23 +13,18 @@ r = redis.StrictRedis(
     port=6379,
     charset="utf-8", decode_responses=True)
 
-
 def add_to_cache(key, value):
     """
-
     :param key: A valid Redis key string.
     :param value: A Python dictionary to add to cache.
     :return: None
     """
+    # print("adding:",key)
     k = key
-    ut.debug_message("Adding key = ", k)
-    ut.debug_message("Adding data", value)
     r.hmset(k, value)
-
 
 def get_from_cache(key):
     """
-
     :param key: A valid Redis key.
     :return: The "map object" associated with the key.
     """
@@ -44,9 +40,6 @@ def compute_key(resource, template, fields):
     :param fields: List of fields to retrieve, e.g. project clause.
     :return: A valid Redis key that for storing/retrieving a map from the Redis cache.
     """
-    ut.debug_message("Resource = ", resource)
-    ut.debug_message("Template = ", template)
-    ut.debug_message("Fields = ", fields)
 
     t = None
     f = None
@@ -55,11 +48,11 @@ def compute_key(resource, template, fields):
         """
         Convert the query template to a string form of p1=v1,p2=v2, ...
         """
-        print("Items = ", template.items())
+        # print("Items = ", template.items())
         t = template.items()
-        print("t = ", t)
+        # print("t = ", t)
         t = tuple(t)
-        print("t = ", t)
+        # print("t = ", t)
         sorted(t, key=itemgetter(1))
         ts = [str(e[0]) + "=" + str(e[1]) for e in t]
         t = ",".join(ts)
@@ -103,7 +96,26 @@ def check_query_cache(resource, template, fields):
     :param fields: A list of fields to return, e.g. ['nameLast', 'nameFirst', 'throws', 'birthCity']
     :return: Returns a cached value from the Redis result cache if one exists.
     """
-    pass
+    result = []
+    r = compute_key(resource, template, fields)
+    r1 = r + ",0" 
+    first_result = get_from_cache(r1)
+    if not first_result: #there is no value for the key
+        return None
+    
+    result.append(first_result)
+
+    i = 1
+    while True:
+        r_temp = r + "," + str(i)
+        result_temp = get_from_cache(r_temp)
+        if not result_temp:
+            break
+
+        result.append(result_temp)
+        i+=1
+
+    return result
 
 
 def add_to_query_cache(resource, template, fields, query_result):
@@ -116,5 +128,8 @@ def add_to_query_cache(resource, template, fields, query_result):
     :param query_result: The value returned from the data service as a result of the query.
     :return: key value for cached resource.
     """
-    pass
-
+    r = compute_key(resource, template, fields)
+    
+    for i in range(len(query_result)):
+        add_to_cache(r +"," + str(i),query_result[i])
+    return r

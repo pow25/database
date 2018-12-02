@@ -79,14 +79,3 @@ def retrieve_by_template(table, t, fields=None, limit=None, offset=None, orderBy
 
     r = db.run_q(cnx, q, None, fetch=True, commit=True)
     return r
-
-
-
-
-
-
-
-
-
-
-

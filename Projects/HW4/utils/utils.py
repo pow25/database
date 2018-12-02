@@ -28,7 +28,6 @@ def get_config_params(file_path):
 
 def print_message(msg, obj=None):
     """
-
     :param msg: String message to print
     :param obj: Optional object to convert to json dumps for message.
     :return: None
@@ -38,7 +37,7 @@ def print_message(msg, obj=None):
             print(msg, safe_dumps(obj))
         else:
             print(msg)
-    except Exception as e:
+    except Exception:
         # Fall back if something fails.
         print(msg, obj)
 

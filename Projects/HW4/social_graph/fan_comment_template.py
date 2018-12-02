@@ -1,4 +1,4 @@
-from py2neo import Graph, NodeMatcher, Node, Relationship
+from py2neo import Graph, NodeMatcher, Node, Relationship, RelationshipMatcher
 import json
 from utils import utils as ut
 import uuid
@@ -19,7 +19,8 @@ class FanGraph(object):
                             host=host,
                             port=port)
         self._node_matcher = NodeMatcher(self._graph)
-
+        self._relationship_mathcer = RelationshipMatcher(self._graph)
+         
     def run_match(self, labels=None, properties=None):
         """
         Uses a NodeMatcher to find a node matching a "template."
@@ -27,8 +28,6 @@ class FanGraph(object):
         :param properties: A parameter list of the form prop1=value1, prop2=value2, ...
         :return: An array of Node objects matching the pattern.
         """
-        #ut.debug_message("Labels = ", labels)
-        #ut.debug_message("Properties = ", json.dumps(properties))
 
         if labels is not None and properties is not None:
             result = self._node_matcher.match(labels, **properties)
@@ -48,7 +47,6 @@ class FanGraph(object):
 
     def find_nodes_by_template(self, tmp):
         """
-
         :param tmp: A template defining the label and properties for Nodes to return. An
          example is { "label": "Fan", "template" { "last_name": "Ferguson", "first_name": "Donald" }}
         :return: A list of Nodes matching the template.
@@ -58,7 +56,7 @@ class FanGraph(object):
         result = self.run_match(labels=labels, properties=props)
         return result
 
-    # Create and save a new node for  a 'Fan.'
+    # Create and save a new node for a 'Fan.'
     def create_fan(self, uni, last_name, first_name):
         n = Node("Fan", uni=uni, last_name=last_name, first_name=first_name)
         tx = self._graph.begin(autocommit=True)
@@ -111,12 +109,15 @@ class FanGraph(object):
         :param team_id: An ID for a team.
         :return: The created SUPPORTS relationship from the Fan to the Team
         """
-        f = self.get_fan(uni)
-        t = self.get_team(team_id)
-        r = Relationship(f, "SUPPORTS", t)
-        tx = self._graph.begin(autocommit=True)
-        tx.create(r)
-        return r
+        try:
+            f = self.get_fan(uni)
+            t = self.get_team(team_id)
+            r = Relationship(f, "SUPPORTS", t)
+            tx = self._graph.begin(autocommit=True)
+            tx.create(r)
+            return r
+        except Exception as e:
+            print("create_supports: exception = ", e)
 
     # Create an APPEARED relationship from a player to a Team
     def create_appearance(self, player_id, team_id):
@@ -126,16 +127,21 @@ class FanGraph(object):
             r = Relationship(f, "APPEARED", t)
             tx = self._graph.begin(autocommit=True)
             tx.create(r)
+            return r
         except Exception as e:
             print("create_appearances: exception = ", e)
 
     # Create a FOLLOWS relationship from a Fan to another Fan.
     def create_follows(self, follower, followed):
-        f = self.get_fan(follower)
-        t = self.get_fan(followed)
-        r = Relationship(f, "FOLLOWS", t)
-        tx = self._graph.begin(autocommit=True)
-        tx.create(r)
+        try:
+            f = self.get_fan(follower)
+            t = self.get_fan(followed)
+            r = Relationship(f, "FOLLOWS", t)
+            tx = self._graph.begin(autocommit=True)
+            tx.create(r)
+            return r
+        except Exception as e:
+            print("create_follows: exception = ", e)
 
     def get_comment(self, comment_id):
         n = self.find_nodes_by_template({"label": "Comment", "template": {"comment_id": comment_id}})
@@ -155,7 +161,45 @@ class FanGraph(object):
         :param player_id: A valid player ID or None
         :return: The Node representing the comment.
         """
-        pass
+
+        if team_id == None and player_id == None:
+            raise ValueError("team_id and player_id cannot BOTH be None")
+
+        try:
+            n = Node("Comment",comment_id = str(uuid.uuid4()), comment = comment)
+            f = self.get_fan(uni)
+            if f == None:
+                raise ValueError("invalid fan_uni")
+
+            tx = self._graph.begin(autocommit=True)
+            tx.create(n)
+
+            R = Relationship(f, "COMMENT_BY", n)
+            tx = self._graph.begin(autocommit=True)
+            tx.create(R)
+
+            if team_id != None:
+                t = self.get_team(team_id)
+                if t == None:
+                    raise ValueError("invalid team_id")
+
+                R = Relationship(n, "COMMENT_ON", t)
+                tx = self._graph.begin(autocommit=True)
+                tx.create(R)
+            
+            if player_id != None:
+                p = self.get_player(player_id)
+                if p == None:
+                    raise ValueError("invalid player_id")
+                
+                R = Relationship(n, "COMMENT_ON", p)
+                tx = self._graph.begin(autocommit=True)
+                tx.create(R)
+            return n
+
+        except Exception as e:
+            print("create_comment: exception = ", e)
+        
 
     def create_sub_comment(self, uni, origin_comment_id, comment):
         """
@@ -165,9 +209,33 @@ class FanGraph(object):
         :param comment: Comment string
         :return: Created comment.
         """
-        pass
+        try:
+            n = Node("Comment",comment_id = str(uuid.uuid4()), comment = comment)
+            
+            f = self.get_fan(uni)
+            if f == None:
+                raise ValueError("invalid fan_uni")
 
+            origin_comment = self.get_comment(origin_comment_id)
+            if origin_comment == None:
+                raise ValueError("invalid comment_id")
 
+            tx = self._graph.begin(autocommit=True)
+            tx.create(n)
+
+            r = Relationship(n,"RESPONSE_TO",origin_comment)
+            tx = self._graph.begin(autocommit=True)
+            tx.create(r)
+            
+            r = Relationship(f,"RESPONSE_BY",n)
+            tx = self._graph.begin(autocommit=True)
+            tx.create(r)
+
+            return n
+        
+        except Exception as e:
+            print("create_sub_comment: exception = ", e)
+    
     def get_player_comments(self, player_id):
         """
         Gets all of the comments associated with a player, all of the comments on the comment and comments
@@ -175,7 +243,35 @@ class FanGraph(object):
         :param player_id: ID of the player.
         :return: Graph containing comment, comment streams and commenters.
         """
-        pass
+        res = []
+        p = self.get_player(player_id)
+        if p == None:
+            raise ValueError("The player_id is invalid")
+        try:
+            rm = self._relationship_mathcer
+            node_set = set()
+            node_set.add(p)
+            res1 = rm.match(node_set, r_type = "COMMENT_ON")
+            for r1 in res1:
+                temp_dict = {}
+                temp_nodes_list = r1.nodes
+                temp_nodes_list[0].__str__()
+                temp_nodes_list[1].__str__()
+                s2 = set()
+                s2.add(temp_nodes_list[0])
+                res2 = rm.match(s2,r_type = "COMMENT_BY")
+                for r2 in res2:
+                    temp_node_list2 = r2.nodes
+                    temp_node_list2[0].__str__()
+                    temp_dict['fan'] =  dict(temp_node_list2[0])
+                    temp_dict['comment'] =  dict(temp_nodes_list[0])
+                    temp_dict['player'] =  dict(temp_nodes_list[1])
+                    res.append(temp_dict) 
+        except Exception as e:
+            print("get_player_comments: exception = ", e)
+
+        return res
+
 
     def get_team_comments(self, team_id):
         """
@@ -184,24 +280,32 @@ class FanGraph(object):
         :param player_id: ID of the team.
         :return: Graph containing comment, comment streams and commenters.
         """
-        pass
+        t = self.get_team(team_id)
+        if t == None:
+            raise ValueError("The team_id is invalid")
+        
+        res = []
+        try:
+            rm = self._relationship_mathcer
+            node_set = set()
+            node_set.add(t)
+            res1 = rm.match(node_set, r_type = "COMMENT_ON")
+            for r1 in res1:
+                temp_dict = {}
+                temp_nodes_list = r1.nodes
+                temp_nodes_list[0].__str__()
+                temp_nodes_list[1].__str__()
+                s2 = set()
+                s2.add(temp_nodes_list[0])
+                res2 = rm.match(s2,r_type = "COMMENT_BY")
+                for r2 in res2:
+                    temp_node_list2 = r2.nodes
+                    temp_node_list2[0].__str__()
+                    temp_dict['fan'] =  dict(temp_node_list2[0])
+                    temp_dict['comment'] =  dict(temp_nodes_list[0])
+                    temp_dict['team'] =  dict(temp_nodes_list[1])
+                    res.append(temp_dict) 
+        except Exception as e:
+            print("get_team_comments: exception = ", e)
 
-
-
-
-
-
-
-
-
-
-
-
-
-"""
-bryankr01   CHN
-scherma01   WAS
-abreujo02   CHA
-ortizda01   BOS
-jeterde01   NYA
-"""
+        return res

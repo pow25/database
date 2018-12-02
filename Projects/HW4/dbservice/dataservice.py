@@ -3,7 +3,7 @@ import pymysql.cursors
 import json
 import utils.utils as ut
 from utils import dffutils as db
-
+import redis_cache.data_cache as dc
 
 db_schema = None                                # Schema containing accessed data
 cnx = None                                      # DB connection to use for accessing the data.
@@ -46,21 +46,26 @@ def templateToWhereClause(t):
         s += k + "='" + v + "'"
 
     if s != "":
-        s = "WHERE " + s;
+        s = "WHERE " + s
 
     return s
 
 
 # Given a table, template and list of fields. Return the result.
 def retrieve_by_template(table, t, fields=None, limit=None, offset=None, orderBy=None):
+    redis_r = dc.check_query_cache(table, t, fields)
+    if redis_r != None:
+        print("****************Hit**************************")
+        return redis_r
 
+    print("****************Miss**************************")
     if t is not None:
         w = templateToWhereClause(t)
     else:
         w = ""
 
     if orderBy is not None:
-        o = "order by " + ",".join(orderBy['fields']) + " " + orderBy['direction'] + " "
+        o = " ORDER BY " + ",".join(orderBy['fields']) + " " + orderBy['direction'] + " "
     else:
         o = ""
 
@@ -70,14 +75,15 @@ def retrieve_by_template(table, t, fields=None, limit=None, offset=None, orderBy
         w += " OFFSET " + str(offset)
 
     if fields is None:
-        fields = " * "
+        fields_input = " * "
     else:
-        fields = " " + ",".join(fields) + " "
+        fields_input = " " + ",".join(fields) + " "
 
-    cursor=cnx.cursor()
-    q = "SELECT " + fields + " FROM " + table + " " + w + ";"
+    q = "SELECT" + fields_input + "FROM " + table + " " + w + o +";"
 
     r = db.run_q(cnx, q, None, fetch=True, commit=True)
+    dc.add_to_query_cache(table, t, fields, r)
+
     return r
 
 
