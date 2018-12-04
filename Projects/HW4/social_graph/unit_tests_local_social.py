@@ -155,4 +155,18 @@ def test_get_team_comments():
 
 # test_get_team_comments()
 
+def test_create_comment2():
+    t = fg.get_team('BOS')
+    f = fg.get_fan('js1')
+    p = fg.get_player('pedrodu01')
+    c = "Not that good~Abraham, you agree?"
+    pid = p['player_id']
+    tid = t['team_id']
+    fid = f['uni']
+    c = fg.create_comment(fid, c, tid, pid)
+    print("The comment is:",c)
+    m = "That's non-sense!!!"
+    r = fg.create_sub_comment('al1', c['comment_id'], m)
+    print("sub comment is:",r)
 
+test_create_comment2()

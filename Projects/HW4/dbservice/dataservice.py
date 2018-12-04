@@ -55,10 +55,10 @@ def templateToWhereClause(t):
 def retrieve_by_template(table, t, fields=None, limit=None, offset=None, orderBy=None):
     redis_r = dc.check_query_cache(table, t, fields)
     if redis_r != None:
-        print("****************Hit**************************")
+        print("**************************Hit**************************")
         return redis_r
 
-    print("****************Miss**************************")
+    print("**************************Miss**************************")
     if t is not None:
         w = templateToWhereClause(t)
     else:
@@ -85,14 +85,3 @@ def retrieve_by_template(table, t, fields=None, limit=None, offset=None, orderBy
     dc.add_to_query_cache(table, t, fields, r)
 
     return r
-
-
-
-
-
-
-
-
-
-
-
