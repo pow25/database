@@ -66,4 +66,7 @@ The HTML for the various lectures are:
 - [Lecture 5: More Relational](./Notebooks/w4111-L5-f2018-More-Relational.html)
 - [Lecture 6: Web Advanced Relational](./Notebooks/w4111-L6-f2018-Web-Advanced-Relational.html)
 
+
+- [Lecture 12: Decision Support and Analytics] (./Notebooks/w4111_L12_Decision_Support.html)
+
 More to come
