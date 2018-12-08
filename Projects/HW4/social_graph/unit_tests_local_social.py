@@ -169,4 +169,37 @@ def test_create_comment2():
     r = fg.create_sub_comment('al1', c['comment_id'], m)
     print("sub comment is:",r)
 
-test_create_comment2()
+# test_create_comment2()
+
+def test_get_comments2():
+    g = fg.get_player_comments('pedrodu01')
+    print("Get player comment:")
+    print(json.dumps(g, indent=2))
+    g = fg.get_team_comments('BOS')
+    print("Get team comments:")
+    print(json.dumps(g, indent=2))
+
+# test_get_comments2()
+
+def test_create_player_comment_only():
+    f = fg.get_fan('jm1')
+    p = fg.get_player('alberan01')
+    c = "Bad player"
+    pid = p['player_id']
+    fid = f['uni']
+    c = fg.create_comment(fid, c, player_id=pid)
+    print("The comment is:",c)
+
+
+# test_create_player_comment_only()
+
+def test_create_team_comment_only():
+    t = fg.get_team('HOU')
+    f = fg.get_fan('js1')
+    c = "Bad team"
+    tid = t['team_id']
+    fid = f['uni']
+    c = fg.create_comment(fid, c, team_id = tid)
+    print("The comment is:",c)
+
+# test_create_team_comment_only()
